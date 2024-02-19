@@ -44,4 +44,26 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user, session, trigger }) {
+      if (trigger === "update" && (session?.name || session?.orgRole)) {
+        token.name = session.name;
+        token.orgRole = session.orgRole;
+      }
+      user && (token.user = user);
+      return token;
+    },
+    async session({ session, token }: any) {
+      session.user = token.user;
+      session.token = token?.user?.token;
+      if (token?.name) {
+        session.user.name = token.name;
+      }
+      if (token?.orgRole) {
+        session.user.orgRole = token.orgRole;
+      }
+
+      return session;
+    },
+  },
 };
