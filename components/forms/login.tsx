@@ -51,6 +51,7 @@ const LoginForm = (props: Props) => {
         if (response?.ok) {
           toast.success("Successful login confirmed. Welcome back.");
           router.push(response.url as string);
+          router.refresh();
         } else {
           toast.error(response?.error || "Login failed. Please try again.");
         }

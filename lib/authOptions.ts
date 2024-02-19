@@ -1,8 +1,14 @@
 import { api } from "@/services/api";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import type { NextAuthOptions } from "next-auth";
+import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       id: "user-login",
@@ -55,7 +61,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       session.user = token.user;
-      session.token = token?.user?.token;
+      // session.token = token?.user?.token;
       if (token?.name) {
         session.user.name = token.name;
       }
@@ -66,4 +72,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-};
+} satisfies NextAuthOptions;
+
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions);
+}
