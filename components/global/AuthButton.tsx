@@ -6,17 +6,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, buttonVariants } from "../ui/button";
 
+type Size = "default" | "sm" | "lg" | "icon";
+
 type Props = {
   type: "login" | "logout";
+  size?: Size;
 };
 
-const AuthButton = ({ type }: Props) => {
+const AuthButton = ({ type, size = "default" }: Props) => {
   const pathname = usePathname();
 
   return type === "login" ? (
     <Link
       href={`/login?callbackUrl=${pathname}`}
-      className={cn(buttonVariants())}
+      className={cn(buttonVariants({ size }))}
     >
       Login
     </Link>

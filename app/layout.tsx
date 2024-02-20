@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Header from "@/components/site/Header";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -27,7 +28,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Header />
+          <main>{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>
