@@ -11,20 +11,26 @@ type Size = "default" | "sm" | "lg" | "icon";
 type Props = {
   type: "login" | "logout";
   size?: Size;
+  className?: string;
 };
 
-const AuthButton = ({ type, size = "default" }: Props) => {
+const AuthButton = ({ type, size = "default", className = "" }: Props) => {
   const pathname = usePathname();
 
   return type === "login" ? (
     <Link
       href={`/login?callbackUrl=${pathname}`}
-      className={cn(buttonVariants({ size }))}
+      className={cn(buttonVariants({ size }), className)}
     >
       Login
     </Link>
   ) : (
-    <Button onClick={() => signOut({ callbackUrl: "/" })}>Logout</Button>
+    <Button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className={cn(className)}
+    >
+      Logout
+    </Button>
   );
 };
 

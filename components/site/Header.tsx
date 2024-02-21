@@ -30,20 +30,28 @@ const Header = async () => {
             </Link>
 
             {/* Login/Signup */}
-            <div className="flex items-center space-x-4">
-              {!session ? (
-                <AuthButton type="login" size="sm" />
-              ) : (
-                <div>
-                  <Link
-                    href="/dashboard"
-                    className={cn(buttonVariants({ variant: "link" }))}
-                  >
-                    Dashboard
-                  </Link>
-                  <AuthButton type="logout" size="sm" />
-                </div>
-              )}
+            <div className="flex items-center">
+              <a
+                href="https://docs.motionmix.ai/sdk-documentation/"
+                target="_blank"
+                className={cn(buttonVariants({ variant: "link" }))}
+                rel="noopener noreferrer"
+              >
+                Docs
+              </a>
+              {session ? (
+                <Link
+                  href="/dashboard"
+                  className={cn(buttonVariants({ variant: "link" }))}
+                >
+                  Dashboard
+                </Link>
+              ) : null}
+              <AuthButton
+                type={!session ? "login" : "logout"}
+                size="sm"
+                className="ml-3"
+              />
               {/* <ModeToggle /> */}
             </div>
           </div>
