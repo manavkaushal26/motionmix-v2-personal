@@ -302,7 +302,12 @@ const HeroCanvas: React.FC = () => {
     initializeThree();
   }, []);
 
-  return <div ref={containerRef} className="w-full h-full" />;
+  return (
+    <>
+      <div className="absolute top-0 z-10 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent to-background" />
+      <div ref={containerRef} className="w-full h-full" />
+    </>
+  );
 };
 
 export default HeroCanvas;

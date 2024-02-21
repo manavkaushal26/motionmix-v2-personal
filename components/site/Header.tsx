@@ -1,47 +1,49 @@
-"use client";
-
+import { auth } from "@/lib/authOptions";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import AuthButton from "../global/AuthButton";
 import MaxWidthWrapper from "../global/MaxWidthWrapper";
+import { buttonVariants } from "../ui/button";
 
 interface HeaderProps {}
 
-const Header: React.FC<HeaderProps> = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const threshold = 50; // Adjust scroll threshold as needed
-      setIsScrolled(window.scrollY > threshold);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+const Header = async () => {
+  const session = await auth();
 
   return (
     <header
-      className={`fixed top-5 w-full z-50 duration-200 ease-in-out bg-transparent`}
+      className={`fixed top-5 w-full z-[100] duration-200 ease-in-out bg-transparent`}
     >
       <MaxWidthWrapper maxWidth="md">
-        <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 py-2 px-8">
+        <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 py-3 px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/">
-              <Image
-                src={"/assets/logo_icon.svg"}
-                alt="MotionMix Logo"
-                width={50}
-                height={50}
-              />
+              <div className="relative w-10 aspect-square">
+                <Image
+                  src={"/assets/logo_icon.svg"}
+                  alt="MotionMix Logo"
+                  fill
+                />
+              </div>
             </Link>
 
             {/* Login/Signup */}
             <div className="flex items-center space-x-4">
-              <AuthButton type="login" size="sm" />
+              {!session ? (
+                <AuthButton type="login" size="sm" />
+              ) : (
+                <div>
+                  <Link
+                    href="/dashboard"
+                    className={cn(buttonVariants({ variant: "link" }))}
+                  >
+                    Dashboard
+                  </Link>
+                  <AuthButton type="logout" size="sm" />
+                </div>
+              )}
               {/* <ModeToggle /> */}
             </div>
           </div>

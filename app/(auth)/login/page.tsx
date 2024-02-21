@@ -4,7 +4,7 @@ type Props = {};
 
 const Page = (props: Props) => {
   return (
-    <div>
+    <div className="w-full h-screen">
       <LoginForm />
     </div>
   );

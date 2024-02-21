@@ -8,7 +8,7 @@ type Props = {
 const GradientBadge = ({ variant, children }: Props) => {
   if (variant === "normal")
     return (
-      <div className="inline-flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950 px-3 py-1 text-sm font-medium text-zinc-800 dark:text-zinc-400 backdrop-blur-3xl">
+      <div className="inline-flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950 px-3 py-1 text-sm font-medium text-zinc-800 dark:text-zinc-400 backdrop-blur-3xl dark:hover:text-zinc-300 duration-200">
         <div className="flex items-center space-x-2">{children}</div>
       </div>
     );

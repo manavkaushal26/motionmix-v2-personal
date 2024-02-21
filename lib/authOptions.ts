@@ -49,7 +49,7 @@ export const authOptions = {
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user, session, trigger }) {
       if (trigger === "update" && (session?.name || session?.orgRole)) {
