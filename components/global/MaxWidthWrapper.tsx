@@ -1,18 +1,19 @@
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 type MaxWidth = "sm" | "md" | "lg";
 
-type Props = {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   maxWidth?: MaxWidth;
-};
+}
 
 const MaxWidthWrapper = ({
   children,
   className = "",
   maxWidth = "lg",
+  ...props
 }: Props) => {
   return (
     <div
@@ -23,6 +24,7 @@ const MaxWidthWrapper = ({
         { "max-w-screen-xl": maxWidth === "lg" },
         className
       )}
+      {...props}
     >
       {children}
     </div>

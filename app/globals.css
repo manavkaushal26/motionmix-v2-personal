@@ -62,6 +62,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 /* UTILITIES */
 .text-motionmix {
   @apply bg-gradient-to-b from-purple-500 to-pink-500 text-transparent bg-clip-text;

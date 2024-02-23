@@ -15,8 +15,8 @@ const Header = async () => {
     <header
       className={`fixed top-5 w-full z-[100] duration-200 ease-in-out bg-transparent`}
     >
-      <MaxWidthWrapper maxWidth="md">
-        <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 py-3 px-8">
+      <MaxWidthWrapper maxWidth="lg">
+        <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 py-3 px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/">
@@ -31,14 +31,20 @@ const Header = async () => {
 
             {/* Login/Signup */}
             <div className="flex items-center">
-              <a
+              <Link
                 href="https://docs.motionmix.ai/sdk-documentation/"
                 target="_blank"
                 className={cn(buttonVariants({ variant: "link" }))}
                 rel="noopener noreferrer"
               >
                 Docs
-              </a>
+              </Link>
+              <Link
+                href="#pricing"
+                className={cn(buttonVariants({ variant: "link" }))}
+              >
+                Pricing
+              </Link>
               {session ? (
                 <Link
                   href="/dashboard"

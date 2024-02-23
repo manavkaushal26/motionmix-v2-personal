@@ -38,7 +38,7 @@ const CardSpotlightBorder = ({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           // className="h-12 w-full cursor-default rounded-md border border-gray-800 bg-gray-950 p-3.5 text-gray-100 transition-colors duration-500 placeholder:select-none placeholder:text-gray-500 focus:border-[#8678F9] focus:outline-none"
-          className={cn("w-full h-full", className)}
+          className={cn("w-full h-full duration-200 delay-100", className)}
         >
           {children}
         </div>

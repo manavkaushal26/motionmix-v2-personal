@@ -8,14 +8,15 @@ import { auth } from "@/lib/authOptions";
 import { cn } from "@/lib/utils";
 import {
   BrainCircuit,
+  CaptionsOff,
   MessageSquare,
+  MessagesSquare,
   MoveRight,
   Pencil,
   ShieldCheck,
   TabletSmartphone,
   User,
   Users,
-  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -173,12 +174,11 @@ const Home = async () => {
               <p className="text-motionmix text-bold text-4xl">VISION</p>
             </div>
             <h4 className="text-6xl text-muted-foreground leading-tight">
-              We want to change how content is written and distributed.
+              Lorem ipsum dolor, sit amet consectetur adipisicing.
             </h4>
             <h4 className="text-6xl text-foreground leading-tight">
-              We want to build the best tools to help ambitious content
-              teams-developers, marketers, bloggers, journalists-write better
-              content, faster.
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet ex
+              totam fugiat necessitatibus. Eos similique libero maxime.
             </h4>
             <GradientBadge variant="normal">
               <Pencil size={14} />
@@ -188,8 +188,21 @@ const Home = async () => {
         </MaxWidthWrapper>
       </CardSpotlight>
 
-      {/* PRICING SECTION */}
+      {/* ROADMAP SECTION */}
       <MaxWidthWrapper className="w-full mt-20">
+        <div className="text-4xl font-semibold leading-tight text-center">
+          <p className="bg-gradient-to-b from-purple-500 to-pink-500 text-transparent bg-clip-text">
+            Our Roadmap
+          </p>
+          <p className="text-muted-foreground text-base">
+            Get started with a free Personal Account, or a Team with{" "}
+            <span className="text-foreground">unlimited members</span>.
+          </p>
+        </div>
+      </MaxWidthWrapper>
+
+      {/* PRICING SECTION */}
+      <MaxWidthWrapper className="w-full mt-20" id="pricing">
         <div>
           <div className="text-4xl font-semibold leading-tight text-center">
             <p className="bg-gradient-to-b from-purple-500 to-pink-500 text-transparent bg-clip-text">
@@ -243,7 +256,7 @@ const Home = async () => {
                     color: "gradient",
                   },
                   {
-                    icon: MessageSquare,
+                    icon: MessagesSquare,
                     title: "Discord + Slack Connect Support",
                     color: "foreground",
                   },
@@ -269,7 +282,7 @@ const Home = async () => {
                   className={cn(
                     "p-6 rounded-xl divide-y divide-zinc-800 text-sm border border-zinc-800",
                     {
-                      "bg-[#161616] shadow-[0_35px_60px_-15px_rgba(169,85,247,0.3)]":
+                      "bg-[#161616] shadow-[0_10px_60px_-30px_rgba(169,85,247,0.5)]":
                         !isFreePlan,
                     }
                   )}
@@ -318,7 +331,7 @@ const Home = async () => {
                       <Button size="sm">{card.ctaText}</Button>
                       <p className="text-xs text-zinc-500 mt-2 flex items-center justify-center space-x-1">
                         {isFreePlan ? (
-                          <X size={14} />
+                          <CaptionsOff size={14} />
                         ) : (
                           <ShieldCheck size={14} />
                         )}{" "}
@@ -329,6 +342,13 @@ const Home = async () => {
                 </Component>
               );
             })}
+          </div>
+          <div className="text-center mt-6 text-sm text-muted-foreground">
+            <p>
+              Are you an Alpha User? You&apos;ll be able to use MotionMix
+              completely for free until{" "}
+              <span className="text-foreground">23 May, 2024</span>.
+            </p>
           </div>
         </div>
       </MaxWidthWrapper>

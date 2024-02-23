@@ -195,7 +195,7 @@ const HeroCanvas: React.FC = () => {
       smoke.position.y = 2;
 
       scene.add(ambientLight);
-      scene.add(lightFront);
+      city.add(lightFront);
       scene.add(lightBack);
       scene.add(city);
       city.add(smoke);
