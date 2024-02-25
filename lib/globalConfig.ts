@@ -18,17 +18,9 @@ const config = {
 const imageKit = {
   baseDeliveryUrl: {
     image: isProduction
-      ? "https://ik.imagekit.io/joyverse"
-      : "https://ik.imagekit.io/joyverse",
-    other: isProduction
-      ? "https://file.joyverse.club"
-      : "https://file.joyverse.club",
-  },
-  baseDeliveryUrlMotionmix: {
-    image: isProduction
       ? "https://ik.imagekit.io/motionmix"
       : "https://ik.imagekit.io/motionmix",
-    other: isProduction
+    otherFiles: isProduction
       ? "https://file.motionmix.club"
       : "https://file.motionmix.club",
   },

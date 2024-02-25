@@ -9,6 +9,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "basehub.com",
+      },
+      {
+        protocol: "https",
         hostname: "placehold.co",
       },
     ],

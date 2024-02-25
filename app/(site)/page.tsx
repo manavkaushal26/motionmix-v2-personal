@@ -23,10 +23,7 @@ import Link from "next/link";
 
 const Home = async () => {
   const session = await auth();
-  // <div className="relative h-full w-full bg-slate-950">
-  //   <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
-  //   <div className="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
-  // </div>;
+
   return (
     <div className="relative h-screen w-full">
       {/* HERO SECTION */}
@@ -188,18 +185,7 @@ const Home = async () => {
         </MaxWidthWrapper>
       </CardSpotlight>
 
-      {/* ROADMAP SECTION */}
-      <MaxWidthWrapper className="w-full mt-20">
-        <div className="text-4xl font-semibold leading-tight text-center">
-          <p className="bg-gradient-to-b from-purple-500 to-pink-500 text-transparent bg-clip-text">
-            Our Roadmap
-          </p>
-          <p className="text-muted-foreground text-base">
-            Get started with a free Personal Account, or a Team with{" "}
-            <span className="text-foreground">unlimited members</span>.
-          </p>
-        </div>
-      </MaxWidthWrapper>
+      {/* TODO: ROADMAP SECTION */}
 
       {/* PRICING SECTION */}
       <MaxWidthWrapper className="w-full mt-20" id="pricing">
