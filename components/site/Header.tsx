@@ -15,7 +15,7 @@ const Header = async () => {
     <header
       className={`fixed top-5 w-full z-[100] duration-200 ease-in-out bg-transparent`}
     >
-      <MaxWidthWrapper maxWidth="lg">
+      <MaxWidthWrapper maxWidth="md">
         <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 py-3 px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -54,7 +54,7 @@ const Header = async () => {
                 </Link>
               ) : null}
               <AuthButton
-                type={!session ? "login" : "logout"}
+                type={!session ? "signin" : "signout"}
                 size="sm"
                 className="ml-3"
               />

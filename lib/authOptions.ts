@@ -36,18 +36,21 @@ export const authOptions = {
             const userResponse: any = await api.getUserDetails(token);
             return { ...userResponse?.data, token };
           } else {
-            const errorMessage = res?.data?.message || "Failed to authenticate";
+            const errorMessage =
+              res?.message || res?.data?.message || "Failed to authenticate";
             throw new Error(errorMessage);
           }
         } catch (error: any) {
           console.error("Authentication error:", error.message);
-          throw new Error("Authentication failed. Please try again.");
+          throw new Error(
+            error.message || "Authentication failed. Please try again."
+          );
         }
       },
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/signin",
   },
   secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   callbacks: {

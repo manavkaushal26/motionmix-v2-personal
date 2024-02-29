@@ -9,7 +9,7 @@ import { Button, buttonVariants } from "../ui/button";
 type Size = "default" | "sm" | "lg" | "icon";
 
 type Props = {
-  type: "login" | "logout";
+  type: "signin" | "signout";
   size?: Size;
   className?: string;
 };
@@ -17,19 +17,19 @@ type Props = {
 const AuthButton = ({ type, size = "default", className = "" }: Props) => {
   const pathname = usePathname();
 
-  return type === "login" ? (
+  return type === "signin" ? (
     <Link
-      href={`/login?callbackUrl=${pathname}`}
+      href={`/signin?callbackUrl=${pathname}`}
       className={cn(buttonVariants({ size }), className)}
     >
-      Login
+      Sign In
     </Link>
   ) : (
     <Button
       onClick={() => signOut({ callbackUrl: "/" })}
       className={cn(className)}
     >
-      Logout
+      Sign Out
     </Button>
   );
 };

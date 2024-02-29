@@ -1,3 +1,4 @@
+import GlobalProvider from "@/components/providers/GlobalProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { defaultSEO } from "@/lib/globalConfig";
@@ -29,9 +30,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <Header /> */}
-          <main>{children}</main>
-          <Toaster />
+          <GlobalProvider>
+            <main>{children}</main>
+            <Toaster />
+          </GlobalProvider>
         </ThemeProvider>
       </body>
     </html>

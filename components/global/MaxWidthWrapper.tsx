@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
 
-type MaxWidth = "sm" | "md" | "lg";
+type MaxWidth = "2xs" | "xs" | "sm" | "md" | "lg";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -19,6 +19,8 @@ const MaxWidthWrapper = ({
     <div
       className={cn(
         "mx-auto w-full max-w-screen-xl px-2.5 md:px-20 min-h-fit",
+        { "max-w-[32rem]": maxWidth === "2xs" },
+        { "max-w-screen-sm": maxWidth === "xs" },
         { "max-w-screen-md": maxWidth === "sm" },
         { "max-w-screen-lg": maxWidth === "md" },
         { "max-w-screen-xl": maxWidth === "lg" },

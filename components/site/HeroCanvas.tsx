@@ -166,7 +166,7 @@ const HeroCanvas: React.FC = () => {
       // Scene
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(COLORS.purple);
-      scene.fog = new THREE.Fog(COLORS.purple, 10, 16);
+      scene.fog = new THREE.Fog(COLORS.purple, 10, 18);
 
       // Camera
       const fov = 25;
