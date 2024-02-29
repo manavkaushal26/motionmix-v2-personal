@@ -49,7 +49,7 @@ const CardSpotlight = ({ children, className = "" }: Props) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "w-full relative flex items-center justify-center overflow-hidden rounded-xl border border-gray-800 bg-gradient-to-r from-black to-gray-950 shadow-2xl",
+        "w-full relative overflow-hidden rounded-xl border  bg-gradient-to-tr from-zinc-900 to-zinc-950 shadow-2xl",
         className
       )}
     >

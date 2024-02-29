@@ -16,37 +16,12 @@ type Props = {
 const SidebarItem = ({ item, lastSegment, appId }: Props) => {
   const [isSubMenuOpen, setSubMenuOpen] = useState(item?.defaultOpen || false);
 
-  // const buildUrlWithQueryParams = (
-  //   url: string,
-  //   searchParams?: ParsedUrlQuery
-  // ) => {
-  //   const currentQueryParams = { appId: rest.appId, ...searchParams };
-
-  //   // Remove any undefined or null values
-  //   Object.keys(currentQueryParams).forEach(
-  //     (key) => currentQueryParams[key] == null && delete currentQueryParams[key]
-  //   );
-
-  //   const queryString = new URLSearchParams(
-  //     currentQueryParams as any
-  //   ).toString();
-  //   return queryString ? `${url}?${queryString}` : url;
-  // };
-
   const toggleSubMenu = () => {
     setSubMenuOpen(!isSubMenuOpen);
   };
 
   const baseNavigationItemClass =
     "flex items-center duration-200 rounded-md text-muted-foreground";
-
-  // if (item.groupTitle) {
-  //   return (
-  //     <div className="my-4 tracking-wider font-semibold text-muted-foreground/50">
-  //       <p>{item.label}</p>
-  //     </div>
-  //   );
-  // }
 
   return (
     <li className="mb-1">

@@ -59,6 +59,7 @@ export const sidebarNavigationData: Partial<SidebarNavItem>[] = [
     href: "https://docs.motionmix.ai/sdk-documentation",
     icon: FileText,
     newTab: true,
+    identifier: "",
   },
   // {
   //   label: "Changelog",

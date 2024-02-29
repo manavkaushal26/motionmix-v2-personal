@@ -43,17 +43,21 @@ const DashboardSidebar = ({ appsList }: Props) => {
             return { label: app.name, value: app._id };
           })}
         />
-        <ul className="mt-4">
-          {sidebarAppsNavigationData?.map((item) => (
-            <SidebarItem
-              key={item.label}
-              item={item}
-              lastSegment={lastSegment}
-              appId={appId as string}
-            />
-          ))}
-        </ul>
-        <div className="mt-4 tracking-wider font-semibold text-muted-foreground/50">
+
+        {appId ? (
+          <ul className="mt-4">
+            {sidebarAppsNavigationData?.map((item) => (
+              <SidebarItem
+                key={item.label}
+                item={item}
+                lastSegment={lastSegment}
+                appId={appId as string}
+              />
+            ))}
+          </ul>
+        ) : null}
+
+        <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/25">
           <p>Documentation</p>
         </div>
         <Separator className="my-2" />

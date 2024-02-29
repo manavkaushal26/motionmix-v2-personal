@@ -1,3 +1,4 @@
+import AppSessionCard from "@/components/dashboard/AppSessionCard";
 import { auth } from "@/lib/authOptions";
 import { SingleSession } from "@/lib/types";
 
@@ -33,7 +34,7 @@ const fetchAppVersions = async (appId: string, token: string) => {
 
 const fetchAllSessionByAppId = async (appId: string, token: string) => {
   const res = await fetch(
-    `https://api.motionmix.ai/v1/app/${appId}/session?limit=10&skip=0`,
+    `https://api.motionmix.ai/v1/app/${appId}/session?limit=16&skip=0`,
     {
       method: "GET",
       headers: { token },
@@ -65,12 +66,12 @@ const SessionsPage = async ({ params }: Props) => {
           <span className="text-motionmix">{appDetails.name}</span>
         </h1>
         <p className="text-sm text-muted-foreground">
-          {sessions?.length || 0} total sessions
+          {sessions?.length || 0} sessions
         </p>
       </section>
-      <section className="mt-10 grid grid-cols-4 gap-5">
+      <section className="mt-5 grid grid-cols-4 gap-5">
         {sessions?.map((session) => (
-          <p key={session._id}>{session.createdAt}</p>
+          <AppSessionCard key={session._id} appSession={session} />
         ))}
       </section>
     </div>

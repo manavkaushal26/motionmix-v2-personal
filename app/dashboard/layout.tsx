@@ -1,4 +1,5 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import AuthButton from "@/components/global/AuthButton";
 import ModeToggle from "@/components/global/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/authOptions";
@@ -70,14 +71,8 @@ const DashboardLayout = async ({ children }: Props) => {
                     aria-hidden="true"
                   />
                 </Button>
-
-                {/* Separator */}
-                <div
-                  className="hidden lg:block lg:h-4 lg:w-px bg-muted"
-                  aria-hidden="true"
-                />
-
                 <ModeToggle />
+                <AuthButton type="signout" />
               </div>
             </div>
           </div>

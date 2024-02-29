@@ -45,6 +45,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "date-fns": "^3.3.1",
+    "dayjs": "^1.11.10",
     "embla-carousel-react": "^8.0.0-rc22",
     "framer-motion": "^11.0.6",
     "gsap": "^3.12.5",

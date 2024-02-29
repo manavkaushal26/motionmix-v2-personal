@@ -157,7 +157,7 @@ const Home = async () => {
       </MaxWidthWrapper>
 
       {/* VISION SECTION */}
-      <CardSpotlight className="border-none mt-20 py-16">
+      <CardSpotlight className="flex items-center justify-center border-none mt-20 py-16">
         <MaxWidthWrapper className="w-full">
           <div className="space-y-5">
             <div className="flex items-center space-x-4">
