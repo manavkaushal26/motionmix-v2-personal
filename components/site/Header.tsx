@@ -6,8 +6,6 @@ import AuthButton from "../global/AuthButton";
 import MaxWidthWrapper from "../global/MaxWidthWrapper";
 import { buttonVariants } from "../ui/button";
 
-interface HeaderProps {}
-
 const Header = async () => {
   const session = await auth();
 
@@ -15,7 +13,7 @@ const Header = async () => {
     <header
       className={`fixed top-5 w-full z-[100] duration-200 ease-in-out bg-transparent`}
     >
-      <MaxWidthWrapper maxWidth="md">
+      <MaxWidthWrapper maxWidth="lg">
         <div className="bg-black rounded-full bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50 py-3 px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
