@@ -1,6 +1,6 @@
 "use client";
 
-import AppsDropdown from "@/components/dashboard/apps-dropdown";
+import AppsDropdown from "@/components/dashboard/AppsDropdown";
 import {
   sidebarAppsNavigationData,
   sidebarNavigationData,
