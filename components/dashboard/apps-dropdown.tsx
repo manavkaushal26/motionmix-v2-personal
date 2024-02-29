@@ -14,9 +14,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -51,8 +52,23 @@ const AppsDropdown = ({ appsList, lastSegment }: Props) => {
       <PopoverContent className="w-full p-0">
         <Command>
           <CommandList>
-            <CommandInput placeholder="Search" />
+            <CommandInput
+              placeholder={`Search from ${appsList?.length} apps`}
+            />
             <CommandEmpty>No app found.</CommandEmpty>
+            <CommandGroup>
+              <CommandItem
+                value={""}
+                onSelect={(currentValue) => {
+                  toast.success("App created");
+                  setOpen(false);
+                }}
+                className="cursor-pointer hover:bg-muted"
+              >
+                <Plus size={16} />
+                <span className="ml-2">Create an App</span>
+              </CommandItem>
+            </CommandGroup>
             <CommandGroup className="no-scrollbar">
               {appsList.map((app) => (
                 <CommandItem

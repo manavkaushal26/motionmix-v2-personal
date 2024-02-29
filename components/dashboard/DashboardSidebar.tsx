@@ -9,6 +9,7 @@ import { SingleApp } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
+import { Separator } from "../ui/separator";
 import SidebarItem from "./SidebarItem";
 
 type Props = {
@@ -22,20 +23,20 @@ const DashboardSidebar = ({ appsList }: Props) => {
   const lastSegment = segments[segments.length - 1];
 
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-[#161616] px-6 py-4">
-      <div className="flex h-16 shrink-0 items-center">
+    <aside className="flex grow flex-col gap-y-5 overflow-y-auto dark:bg-custom-zinc  px-6 py-4 shadow-md">
+      <div className="flex h-10 shrink-0 items-center">
         <Link href="/">
           <div className="flex items-center space-x-2">
-            <div className="relative w-8 aspect-square">
+            <div className="relative w-6 aspect-square">
               <Image src={"/assets/logo_icon.svg"} alt="MotionMix Logo" fill />
             </div>
-            <p className="text-motionmix font-normal text-3xl">
+            <p className="text-motionmix font-normal text-2xl">
               Motion<b>Mix</b>
             </p>
           </div>
         </Link>
       </div>
-      <nav className="flex flex-1 flex-col ">
+      <nav className="flex flex-1 flex-col">
         <AppsDropdown
           lastSegment={lastSegment}
           appsList={appsList.map((app) => {
@@ -52,7 +53,11 @@ const DashboardSidebar = ({ appsList }: Props) => {
             />
           ))}
         </ul>
-        <ul role="list" className="mt-4">
+        <div className="mt-4 tracking-wider font-semibold text-muted-foreground/50">
+          <p>Documentation</p>
+        </div>
+        <Separator className="my-2" />
+        <ul role="list">
           {sidebarNavigationData?.map((item) => (
             <SidebarItem
               key={item.label}
@@ -63,7 +68,7 @@ const DashboardSidebar = ({ appsList }: Props) => {
           ))}
         </ul>
       </nav>
-    </div>
+    </aside>
   );
 };
 

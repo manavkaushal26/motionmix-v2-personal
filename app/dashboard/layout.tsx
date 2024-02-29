@@ -1,4 +1,5 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import ModeToggle from "@/components/global/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/authOptions";
 import { SingleApp } from "@/lib/types";
@@ -46,7 +47,7 @@ const DashboardLayout = async ({ children }: Props) => {
         </div>
 
         <div className="lg:pl-72">
-          <div className="bg-[#161616] px-4 sm:px-6 lg:px-8 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b shadow-sm sm:gap-x-6">
+          <div className="dark:bg-custom-zinc px-4 sm:px-6 lg:px-8 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b shadow-sm sm:gap-x-6">
             <button
               type="button"
               className="-m-2.5 p-2.5 lg:hidden"
@@ -61,27 +62,27 @@ const DashboardLayout = async ({ children }: Props) => {
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <div className="w-full" />
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <Button
-                  size="icon"
-                  type="button"
-                  variant="secondary"
-                  className="-m-2.5 p-2.5"
-                >
+              <div className="flex items-center gap-x-3">
+                <Button size="icon" type="button" variant="outline">
                   <span className="sr-only">View notifications</span>
-                  <Bell className="h-6 w-6" aria-hidden="true" />
+                  <Bell
+                    className="h-[1.2rem] w-[1.2rem] duration-200"
+                    aria-hidden="true"
+                  />
                 </Button>
 
                 {/* Separator */}
                 <div
-                  className="hidden lg:block lg:h-6 lg:w-px "
+                  className="hidden lg:block lg:h-4 lg:w-px bg-muted"
                   aria-hidden="true"
                 />
+
+                <ModeToggle />
               </div>
             </div>
           </div>
 
-          <main className="py-10">
+          <main className="py-8">
             <div className="px-4 sm:px-6 lg:px-8">{children}</div>
           </main>
         </div>

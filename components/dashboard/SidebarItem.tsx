@@ -40,13 +40,13 @@ const SidebarItem = ({ item, lastSegment, appId }: Props) => {
   const baseNavigationItemClass =
     "flex items-center duration-200 rounded-md text-muted-foreground";
 
-  if (item.groupTitle) {
-    return (
-      <div className="my-4 tracking-wider font-semibold text-muted-foreground/50">
-        <p>{item.label}</p>
-      </div>
-    );
-  }
+  // if (item.groupTitle) {
+  //   return (
+  //     <div className="my-4 tracking-wider font-semibold text-muted-foreground/50">
+  //       <p>{item.label}</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <li className="mb-1">
@@ -55,14 +55,14 @@ const SidebarItem = ({ item, lastSegment, appId }: Props) => {
           href={
             item.href ? item.href : `/dashboard/app/${appId}/${item.identifier}`
           }
-          target={item.newTab ? "_blank" : "_self"}
+          target={item.href ? "_blank" : "_self"}
           className="w-full"
         >
           <p
             className={cn(
-              "flex items-center w-full px-2 rounded-md py-2 space-x-2 duration-200",
+              "flex items-center w-full px-2.5 rounded-md py-2 space-x-2 duration-200",
               lastSegment === item.identifier
-                ? "text-foreground"
+                ? "text-foreground bg-muted"
                 : "hover:text-foreground"
             )}
           >

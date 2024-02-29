@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        "custom-zinc": "#161616",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
