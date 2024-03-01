@@ -44,7 +44,7 @@ const AppSessionCard = ({ appSession }: Props) => {
             </p>
             <p>
               Scene:{" "}
-              <span className="text-foreground">
+              <span className="text-foreground capitalize">
                 {appSession?.appScene?.name}
               </span>
             </p>

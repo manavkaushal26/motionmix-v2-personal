@@ -49,7 +49,7 @@ const CardSpotlight = ({ children, className = "" }: Props) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "w-full relative overflow-hidden rounded-xl border  bg-gradient-to-tr from-zinc-900 to-zinc-950 shadow-2xl",
+        "w-full relative overflow-hidden rounded-xl border bg-gradient-to-tr dark:from-zinc-900 dark:to-zinc-950 shadow-lg hover:shadow-xl duration-200",
         className
       )}
     >
