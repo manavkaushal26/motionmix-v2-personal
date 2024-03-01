@@ -5,7 +5,7 @@ import {
   sidebarAppsNavigationData,
   sidebarNavigationData,
 } from "@/lib/mocks/dashboard";
-import { SingleApp } from "@/lib/types";
+import { AppMeta } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
 import Image from "next/image";
@@ -16,7 +16,7 @@ import { Separator } from "../ui/separator";
 import SidebarItem from "./SidebarItem";
 
 type Props = {
-  appsList: SingleApp[];
+  appsList: AppMeta[];
 };
 
 const DashboardSidebar = ({ appsList }: Props) => {

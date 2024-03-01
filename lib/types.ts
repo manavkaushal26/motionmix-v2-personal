@@ -1,3 +1,5 @@
+
+
 interface MongoBase {
   _id: string;
   __v: number;
@@ -5,13 +7,13 @@ interface MongoBase {
   updatedAt?: string;
 }
 
-export interface SingleApp extends MongoBase {
+export interface AppMeta extends MongoBase {
   name: string;
   organization: string;
-  keys: string[];
+  keys: Array<string>;
 }
 
-export interface SingleSession extends MongoBase {
+export interface SessionMeta extends MongoBase {
   appScene: {
     _id: string;
     name: string;

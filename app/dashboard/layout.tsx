@@ -3,7 +3,7 @@ import AuthButton from "@/components/global/AuthButton";
 import ModeToggle from "@/components/global/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/authOptions";
-import { SingleApp } from "@/lib/types";
+import { api } from "@/services/api";
 import { Bell, Menu } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -12,21 +12,21 @@ type Props = {
   children: ReactNode;
 };
 
-const fetchAllApps = async (token: string) => {
-  try {
-    const res = await fetch("https://api.motionmix.ai/v1/app", {
-      method: "GET",
-      headers: { token },
-    });
-    const data = await res.json();
+// const fetchAllApps = async (token: string) => {
+//   try {
+//     const res = await fetch("https://api.motionmix.ai/v1/app", {
+//       method: "GET",
+//       headers: { token },
+//     });
+//     const data = await res.json();
 
-    if (res.ok) {
-      return data.apps;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     if (res.ok) {
+//       return data.apps;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const DashboardLayout = async ({ children }: Props) => {
   const session = await auth();
@@ -35,7 +35,11 @@ const DashboardLayout = async ({ children }: Props) => {
     return redirect("/signin?callbackUrl=/dashboard");
   }
 
-  const appsList: SingleApp[] = await fetchAllApps(session?.user?.token);
+  const appsResponse = await api.getAllApps();
+
+  if (appsResponse.kind !== "ok") {
+    return <p>Error while fetching appsList:: {appsResponse.message}</p>;
+  }
 
   return (
     <>
@@ -44,7 +48,7 @@ const DashboardLayout = async ({ children }: Props) => {
 
         {/* DESKTOP SIDEBAR */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <DashboardSidebar appsList={appsList} />
+          <DashboardSidebar appsList={appsResponse?.data} />
         </div>
 
         <div className="lg:pl-72">
