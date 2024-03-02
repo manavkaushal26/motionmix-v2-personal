@@ -1,20 +1,24 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import SlackTrace from "@/components/dashboard/errors/SlackTrace";
+import { DataTable } from "@/components/global/DataTable";
+import FadeUp from "@/components/global/FadeUp";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { SingleError } from "@/lib/types";
+import { api } from "@/services/api";
 import { ResponsiveLine } from "@nivo/line";
-import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import dayjs from "dayjs";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 type Props = { params: { appId: string }; searchParams: {} };
 
-function generateFakeDataLast15Days(count: number) {
+function generateFakeData(count: number) {
   const data = [];
   const today = new Date();
   const endDate = new Date();
@@ -31,46 +35,129 @@ function generateFakeDataLast15Days(count: number) {
 
 const ErrorsPage = ({ params, searchParams }: Props) => {
   const { appId = "" } = params;
+
   const [fetchingStats, setFetchingStats] = useState<boolean>(false);
-  const [stats, setStats] = useState<{ events: any[] }>({ events: [] });
+  const [stats, setStats] = useState<{ events: Partial<SingleError>[] }>({
+    events: [],
+  });
+  const [fetchingErrorsList, setFetchingErrorsList] = useState<boolean>(false);
+  const [errorsList, setErrorsList] = useState<SingleError[]>([]);
 
   const graphData = useMemo(() => {
     return [
       {
         id: "Errors",
-        data: generateFakeDataLast15Days(100), // 1 to 100
+        data: generateFakeData(100), // 1 to 100
       },
       {
         id: "Users Effected",
-        data: generateFakeDataLast15Days(30), // 1 to 30
+        data: generateFakeData(30), // 1 to 30
       },
     ];
-  }, [stats]);
+  }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     setFetchingStats(true);
-  //     try {
-  //       const res = await api.getErrorStats(appId);
-  //       if (res.kind === "ok") {
-  //         setStats(res.data);
-  //         toast.success("Stats fetched!");
-  //       } else {
-  //         throw new Error(res?.message);
-  //       }
-  //     } catch (error: any) {
-  //       console.error(error);
-  //       toast.error(`Failed to fetch error`, { description: error?.message });
-  //     }
-  //   })();
-  // }, []);
+  const fetchErrorStats = async () => {
+    setFetchingStats(true);
+    try {
+      const res = await api.getErrorStats(appId);
+      if (res.kind === "ok") {
+        setStats(res.data);
+      } else {
+        throw new Error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error?.message);
+    } finally {
+      setFetchingStats(false);
+    }
+  };
+  const fetchErrors = async () => {
+    setFetchingErrorsList(true);
+    try {
+      const res = await api.getErrors(appId);
+      if (res.kind === "ok") {
+        setErrorsList(res.data.events);
+      } else {
+        throw new Error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error?.message);
+    } finally {
+      setFetchingErrorsList(false);
+    }
+  };
+
+  const columns: ColumnDef<SingleError>[] = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      size: 250,
+      cell: ({ row }) => {
+        const name = row.original.name.split(":")[0];
+        return (
+          <div>
+            <p>{name}</p>
+            <div className="mt-1 flex items-center space-x-2">
+              <SlackTrace errorId={row.original._id} />
+
+              <Link href={`/session/${row.original.session}`} target="_blank">
+                <Badge
+                  variant="secondary"
+                  className="text-muted-foreground hover:text-foreground duration-200"
+                >
+                  <ExternalLink size={12} className="mr-1" />
+                  <span>Session</span>
+                </Badge>
+              </Link>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "count",
+      header: "Count",
+    },
+    {
+      accessorKey: "createdAt",
+      header: "First Log",
+      cell: ({ row }) => {
+        const date = dayjs(row.original.createdAt).format("DD MMM, YYYY");
+        const time = dayjs(row.original.createdAt).format("hh:mm a");
+        return (
+          <div>
+            <p>{date}</p>
+            <p className="text-xs text-zinc-500">{time}</p>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "updatedAt",
+      header: "Last Log",
+      cell: ({ row }) => {
+        const date = dayjs(row.original.updatedAt).format("DD MMM, YYYY");
+        const time = dayjs(row.original.updatedAt).format("hh:mm a");
+        return (
+          <div>
+            <p>{date}</p>
+            <p className="text-xs text-zinc-500">{time}</p>
+          </div>
+        );
+      },
+    },
+  ];
+
+  useEffect(() => {
+    const fetchAsyncData = async () => {
+      await Promise.all([fetchErrorStats(), fetchErrors()]);
+    };
+
+    fetchAsyncData();
+  }, []);
 
   return (
-    <motion.div
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <FadeUp>
       <section className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Errors Dashboard</h1>
@@ -92,6 +179,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
               <ResponsiveLine
                 data={graphData}
                 colors={{ scheme: "nivo" }}
+                curve="monotoneX"
                 margin={{ top: 15, right: 110, bottom: 50, left: 60 }}
                 xScale={{ type: "point" }}
                 yScale={{
@@ -127,7 +215,6 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
                 useMesh={true}
                 tooltip={(tData: any) => {
                   const point = tData?.point;
-                  console.log(point);
                   return (
                     <div className="shadow-md bg-background text-foreground py-3 px-4 rounded-md text-xs">
                       <div className="flex items-start space-x-2">
@@ -202,13 +289,12 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
       {/* Table */}
       <section className="mt-5">
         <Card className="bg-[#161616]">
-          <CardHeader>
-            <CardTitle>Errors</CardTitle>
-            <CardDescription>Last 30 Days</CardDescription>
-          </CardHeader>
+          <CardContent className="p-6">
+            <DataTable columns={columns} data={errorsList} />
+          </CardContent>
         </Card>
       </section>
-    </motion.div>
+    </FadeUp>
   );
 };
 

@@ -1,5 +1,3 @@
-
-
 interface MongoBase {
   _id: string;
   __v: number;
@@ -29,4 +27,13 @@ export interface SessionMeta extends MongoBase {
     name: string;
   };
   sessionTime: number;
+}
+
+export interface SingleError extends MongoBase {
+  app: string;
+  code: string;
+  name: string;
+  session: string;
+  count: number;
+  trace?: string;
 }

@@ -1,5 +1,6 @@
 import AppSessionCard from "@/components/dashboard/sessions/AppSessionCard";
 import SessionsFilters from "@/components/dashboard/sessions/SessionsFilters";
+import FadeUp from "@/components/global/FadeUp";
 import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
 
@@ -67,7 +68,7 @@ const SessionsPage = async ({ params }: Props) => {
   // const sessionsRes = await api.getAllSessionsByAppId(appId);
 
   return (
-    <div>
+    <FadeUp>
       <section className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl text-muted-foreground font-semibold">
@@ -84,7 +85,7 @@ const SessionsPage = async ({ params }: Props) => {
           <AppSessionCard key={session._id} appSession={session} />
         ))}
       </section>
-    </div>
+    </FadeUp>
   );
 };
 

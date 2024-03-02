@@ -63,3 +63,28 @@ export function formatSeconds(
 export function formatNumber(number: number) {
   return new Intl.NumberFormat().format(number);
 }
+
+export const copyTextToClipboard = async (text: string) => {
+  try {
+    if (!navigator.clipboard) {
+      // For older browsers or if clipboard API is not supported
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      document.body.appendChild(textarea);
+      try {
+        const successful = document.execCommand("copy");
+        const message = successful ? "successful" : "unsuccessful";
+      } catch (err) {
+        console.error("Unable to copy:", err);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    } else {
+      // For modern browsers supporting Clipboard API
+      await navigator.clipboard.writeText(text);
+    }
+  } catch (error: any) {
+    throw new Error(error?.message);
+  }
+};

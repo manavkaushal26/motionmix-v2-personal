@@ -9,8 +9,8 @@ import { useState } from "react";
 
 type Props = {
   item: Partial<SidebarNavItem>;
-  appId: string;
   lastSegment: string;
+  appId?: string;
 };
 
 const SidebarItem = ({ item, lastSegment, appId }: Props) => {
@@ -24,13 +24,13 @@ const SidebarItem = ({ item, lastSegment, appId }: Props) => {
     "flex items-center duration-200 rounded-md text-muted-foreground";
 
   return (
-    <li className="mb-1">
+    <li className="mt-1">
       <div className={cn(baseNavigationItemClass, "mb-1")}>
         <Link
           href={
             item.href ? item.href : `/dashboard/app/${appId}/${item.identifier}`
           }
-          target={item.href ? "_blank" : "_self"}
+          target={item.href && item.newTab ? "_blank" : "_self"}
           className="w-full"
         >
           <p

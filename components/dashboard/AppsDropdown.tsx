@@ -15,22 +15,21 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 type Props = {
-  lastSegment: string;
   appsList: { label: string; value: string }[];
+  selectedApp: string;
+  setSelectedApp: Dispatch<SetStateAction<string>>;
 };
 
-const AppsDropdown = ({ appsList, lastSegment }: Props) => {
+const AppsDropdown = ({ appsList, selectedApp, setSelectedApp }: Props) => {
   const router = useRouter();
-  const { appId = "" } = useParams();
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(appId);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,11 +39,11 @@ const AppsDropdown = ({ appsList, lastSegment }: Props) => {
           role="combobox"
           aria-expanded={open}
           className={cn("w-full justify-between", {
-            "text-zinc-500 hover:text-zinc-500": !value,
+            "text-zinc-500 hover:text-zinc-500": !selectedApp,
           })}
         >
-          {value
-            ? appsList.find((app) => app.value === value)?.label
+          {selectedApp
+            ? appsList.find((app) => app.value === selectedApp)?.label
             : "Select App"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -75,7 +74,9 @@ const AppsDropdown = ({ appsList, lastSegment }: Props) => {
                   key={app.label}
                   value={app.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setSelectedApp(
+                      currentValue === selectedApp ? "" : currentValue
+                    );
                     setOpen(false);
                     router.push(`/dashboard/app/${currentValue}/sessions`);
                   }}
@@ -83,7 +84,7 @@ const AppsDropdown = ({ appsList, lastSegment }: Props) => {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === app.value ? "opacity-100" : "opacity-0"
+                      selectedApp === app.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {app.label}

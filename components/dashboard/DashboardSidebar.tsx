@@ -9,6 +9,7 @@ import { AppMeta } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
+import { useState } from "react";
 import { Separator } from "../ui/separator";
 import SidebarItem from "./SidebarItem";
 
@@ -18,6 +19,7 @@ type Props = {
 
 const DashboardSidebar = ({ appsList }: Props) => {
   const { appId = "" } = useParams();
+  const [selectedApp, setSelectedApp] = useState<string>(appId as string);
 
   const segments = useSelectedLayoutSegments();
   const lastSegment = segments[segments.length - 1];
@@ -38,13 +40,13 @@ const DashboardSidebar = ({ appsList }: Props) => {
       </div>
       <nav className="flex flex-1 flex-col">
         <AppsDropdown
-          lastSegment={lastSegment}
           appsList={appsList.map((app) => {
             return { label: app.name, value: app._id };
           })}
+          selectedApp={selectedApp}
+          setSelectedApp={setSelectedApp}
         />
-
-        {appId ? (
+        {selectedApp ? (
           <>
             <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
               <p>App Options</p>
@@ -56,7 +58,7 @@ const DashboardSidebar = ({ appsList }: Props) => {
                   key={item.label}
                   item={item}
                   lastSegment={lastSegment}
-                  appId={appId as string}
+                  appId={selectedApp}
                 />
               ))}
             </ul>
@@ -73,7 +75,6 @@ const DashboardSidebar = ({ appsList }: Props) => {
               key={item.label}
               item={item}
               lastSegment={lastSegment}
-              appId={appId as string}
             />
           ))}
         </ul>

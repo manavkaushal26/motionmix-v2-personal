@@ -56,10 +56,6 @@ export const sidebarAppsNavigationData: Partial<SidebarNavItem>[] = [
 ];
 
 export const sidebarNavigationData: Partial<SidebarNavItem>[] = [
-  // {
-  //   label: "Documentation",
-  //   groupTitle: true,
-  // },
   {
     label: "Docs",
     href: "https://docs.motionmix.ai/sdk-documentation",
@@ -67,13 +63,9 @@ export const sidebarNavigationData: Partial<SidebarNavItem>[] = [
     newTab: true,
     identifier: "",
   },
-  // {
-  //   label: "Changelog",
-  //   identifier: "changelogs",
-  //   icon: Replace,
-  // },
   {
     label: "Download",
+    href: "/dashboard/download",
     identifier: "download",
     icon: Download,
   },
