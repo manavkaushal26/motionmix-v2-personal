@@ -1,8 +1,9 @@
-import { auth } from "@/lib/authOptions";
+"use client";
+
 import { config } from "@/lib/globalConfig";
 import { AppMeta } from "@/lib/types";
 import { ApisauceInstance, create } from "apisauce";
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import * as Types from "./api.types";
 import { getGeneralApiProblem } from "./apiProblem";
 
@@ -86,13 +87,138 @@ export class Api {
     return { kind: "ok", data: res?.data as Types.SingleSession };
   }
   // SESSIONS END
+
+  // ERRORS START
+  async getErrorStats(appId: string): Promise<any> {
+    const res = await this.apisauce.get(`/v1/app/${appId}/error/stats/30D`);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res.data };
+  }
+  async getErrors(appId: string): Promise<any> {
+    const res = await this.apisauce.get(`/v1/app/${appId}/error`);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res.data };
+  }
+  async getSingleError(errorId: string): Promise<any> {
+    const res = await this.apisauce.get(`/v1/app/error/${errorId}`);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res.data };
+  }
+  // ERRORS END
+
+  // AUTH START
+  async loginUser(email: string, password: string): Promise<any> {
+    const res = await this.apisauce.post("/v1/auth/login", {
+      email,
+      password,
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res?.data as any };
+  }
+  async getPasswordResetLink(email: string): Promise<Types.ForgetPasswordRes> {
+    const res = await this.apisauce.post("/v1/auth/forgot", {
+      email,
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok" };
+  }
+  async verifyCode(data): Promise<Types.ForgetPasswordRes> {
+    const { userId, code, password } = data;
+    const res = await this.apisauce.post("/v1/auth/verify", {
+      id: userId,
+      code,
+      password,
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok" };
+  }
+
+  async activateUser(id: string): Promise<any> {
+    const res = await this.apisauce.put("/v1/user/active/" + id);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    const rawRes: any = res?.data;
+    return { kind: "ok", data: rawRes };
+  }
+  async deactivateUser(id: string): Promise<any> {
+    const res = await this.apisauce.put("/v1/user/deactive/" + id);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    const rawRes: any = res?.data;
+    return { kind: "ok", data: rawRes };
+  }
+  async updateOrgUserDetails(
+    id: string,
+    data: EditUserFormValues
+  ): Promise<any> {
+    const res = await this.apisauce.put("/v1/user/" + id, {
+      ...data,
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    const rawRes: any = res?.data;
+    return { kind: "ok", data: rawRes };
+  }
+  async getUserDetails(token?: string): Promise<any> {
+    const res = await this.apisauce.get("/v1/user/me", undefined, {
+      headers: token ? { token: token } : {},
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    const rawRes: any = res?.data;
+    return { kind: "ok", data: rawRes };
+  }
+  async updateUserDetails(data: UpdateUserDetailsFormValues): Promise<any> {
+    const res = await this.apisauce.put("/v1/user", data);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok" };
+  }
+  async updatePassword(data: UpdatePasswordFormValues): Promise<any> {
+    const res = await this.apisauce.put("/v1/user/password", data);
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res.data };
+  }
+  // AUTH END
 }
 
 export const api = new Api();
 api.apisauce.setBaseURL(config.apiBaseUrl);
 
 api.apisauce.addAsyncRequestTransform((request) => async () => {
-  const authSession = await auth();
+  const authSession = await getSession();
+  console.log({ authSession });
   const userToken = authSession?.user?.token || request?.headers?.token;
   if (userToken) {
     request.headers!.token = userToken;

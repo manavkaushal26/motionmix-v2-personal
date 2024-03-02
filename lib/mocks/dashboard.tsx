@@ -3,8 +3,9 @@ import {
   FileText,
   LineChart,
   LucideIcon,
+  Play,
+  Settings,
   ShieldAlert,
-  Tv2,
 } from "lucide-react";
 
 export type SidebarNavItem = {
@@ -26,7 +27,7 @@ export const sidebarAppsNavigationData: Partial<SidebarNavItem>[] = [
   {
     label: "Sessions",
     identifier: "sessions",
-    icon: Tv2,
+    icon: Play,
   },
   {
     label: "Analytics",
@@ -46,6 +47,11 @@ export const sidebarAppsNavigationData: Partial<SidebarNavItem>[] = [
         icon: ShieldAlert,
       },
     ],
+  },
+  {
+    label: "Settings",
+    identifier: "settings",
+    icon: Settings,
   },
 ];
 

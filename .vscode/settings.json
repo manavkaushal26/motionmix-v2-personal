@@ -12,6 +12,7 @@
     "motionmix",
     "NEXTAUTH",
     "signin",
+    "signOut",
     "wireframe"
   ]
 }

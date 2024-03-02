@@ -4,23 +4,20 @@ import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button, buttonVariants } from "../ui/button";
+import { Button, ButtonProps, buttonVariants } from "../ui/button";
 
-type Size = "default" | "sm" | "lg" | "icon";
+interface Props extends ButtonProps {
+  authType: "signIn" | "signOut";
+}
 
-type Props = {
-  type: "signin" | "signout";
-  size?: Size;
-  className?: string;
-};
-
-const AuthButton = ({ type, size = "default", className = "" }: Props) => {
+const AuthButton = ({ authType, ...props }: Props) => {
   const pathname = usePathname();
+  const { size = "default", variant = "default", className = "" } = props;
 
-  return type === "signin" ? (
+  return authType === "signIn" ? (
     <Link
       href={`/signin?callbackUrl=${pathname}`}
-      className={cn(buttonVariants({ size }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
     >
       Sign In
     </Link>
