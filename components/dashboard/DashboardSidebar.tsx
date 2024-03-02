@@ -6,12 +6,9 @@ import {
   sidebarNavigationData,
 } from "@/lib/mocks/dashboard";
 import { AppMeta } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import { Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
-import { buttonVariants } from "../ui/button";
 import { Separator } from "../ui/separator";
 import SidebarItem from "./SidebarItem";
 
@@ -48,23 +45,29 @@ const DashboardSidebar = ({ appsList }: Props) => {
         />
 
         {appId ? (
-          <ul className="mt-4">
-            {sidebarAppsNavigationData?.map((item) => (
-              <SidebarItem
-                key={item.label}
-                item={item}
-                lastSegment={lastSegment}
-                appId={appId as string}
-              />
-            ))}
-          </ul>
+          <>
+            <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
+              <p>App Options</p>
+            </div>
+            <Separator className="my-2" />
+            <ul className="text-sm space-y-1">
+              {sidebarAppsNavigationData?.map((item) => (
+                <SidebarItem
+                  key={item.label}
+                  item={item}
+                  lastSegment={lastSegment}
+                  appId={appId as string}
+                />
+              ))}
+            </ul>
+          </>
         ) : null}
 
-        <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/25">
-          <p>Documentation</p>
+        <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
+          <p>SDK</p>
         </div>
         <Separator className="my-2" />
-        <ul role="list">
+        <ul role="list" className="text-sm space-y-1">
           {sidebarNavigationData?.map((item) => (
             <SidebarItem
               key={item.label}
@@ -75,21 +78,6 @@ const DashboardSidebar = ({ appsList }: Props) => {
           ))}
         </ul>
       </nav>
-      {appId ? (
-        <Link
-          href={`/dashboard/app/${appId}/settings`}
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            {
-              "text-muted-foreground hover:text-foreground":
-                lastSegment === "settings",
-            },
-            "duration-200"
-          )}
-        >
-          <Settings size={18} className="mr-2" /> Settings
-        </Link>
-      ) : null}
     </aside>
   );
 };

@@ -59,3 +59,7 @@ export function formatSeconds(
 
   return result;
 }
+
+export function formatNumber(number: number) {
+  return new Intl.NumberFormat().format(number);
+}

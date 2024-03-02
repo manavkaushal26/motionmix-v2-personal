@@ -72,7 +72,7 @@ const AppsDropdown = ({ appsList, lastSegment }: Props) => {
             <CommandGroup className="no-scrollbar">
               {appsList.map((app) => (
                 <CommandItem
-                  key={app.value}
+                  key={app.label}
                   value={app.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
