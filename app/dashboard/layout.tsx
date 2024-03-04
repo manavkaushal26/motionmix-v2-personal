@@ -1,5 +1,5 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import AuthButton from "@/components/global/AuthButton";
+import Notifications from "@/components/dashboard/Notifications";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
@@ -43,7 +43,7 @@ const DashboardLayout = async ({ children }: Props) => {
 
         {/* DESKTOP SIDEBAR */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <DashboardSidebar appsList={appsList || []} />
+          <DashboardSidebar session={session} appsList={appsList || []} />
         </div>
 
         <div className="lg:pl-72">
@@ -63,15 +63,9 @@ const DashboardLayout = async ({ children }: Props) => {
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <div className="w-full" />
               <div className="flex items-center gap-x-3">
-                <Button size="icon" type="button" variant="outline">
-                  <span className="sr-only">View notifications</span>
-                  <Bell
-                    className="h-[1.2rem] w-[1.2rem] duration-200"
-                    aria-hidden="true"
-                  />
-                </Button>
+                <Notifications />
                 {/* <ModeToggle /> */}
-                <AuthButton authType="signOut" size="sm" />
+                {/* <AuthButton authType="signOut" size="sm" /> */}
               </div>
             </div>
           </div>

@@ -6,18 +6,21 @@ import {
   sidebarNavigationData,
 } from "@/lib/mocks/dashboard";
 import { AppMeta } from "@/lib/types";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
 import { useState } from "react";
 import { Separator } from "../ui/separator";
 import SidebarItem from "./SidebarItem";
+import UserCard from "./UserCard";
 
 type Props = {
+  session: Session | null;
   appsList: AppMeta[];
 };
 
-const DashboardSidebar = ({ appsList }: Props) => {
+const DashboardSidebar = ({ session, appsList }: Props) => {
   const { appId = "" } = useParams();
   const [selectedApp, setSelectedApp] = useState<string>(appId as string);
 
@@ -79,6 +82,9 @@ const DashboardSidebar = ({ appsList }: Props) => {
           ))}
         </ul>
       </nav>
+
+      {/* USER CARD */}
+      <UserCard user={session!.user} />
     </aside>
   );
 };

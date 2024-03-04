@@ -1,9 +1,15 @@
 import { auth } from "@/lib/authOptions";
+import { config } from "@/lib/globalConfig";
 
 type Props = {};
 
 const Dashboard = async (props: Props) => {
   const session = await auth();
+
+  // if (appsList) {
+  //   const firstAppId = appsList[0]?._id;
+  //   return redirect(`/dashboard/app/${firstAppId}`);
+  // }
 
   return (
     <div>

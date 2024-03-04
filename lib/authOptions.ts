@@ -1,4 +1,3 @@
-import { api } from "@/services/api";
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -7,6 +6,7 @@ import type {
 import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { config } from "./globalConfig";
 
 export const authOptions = {
   providers: [
@@ -25,19 +25,26 @@ export const authOptions = {
           if (!credentials?.email || !credentials?.password) {
             throw new Error("Missing credentials");
           }
-
-          const res = await api.loginUser(
-            credentials.email,
-            credentials.password
-          );
-
-          if (res.kind === "ok") {
-            const { token } = res.data;
-            const userResponse: any = await api.getUserDetails(token);
-            return { ...userResponse?.data, token };
+          const res = await fetch(`${config.apiBaseUrl}/v1/auth/login`, {
+            method: "POST",
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          if (res.ok) {
+            const { token = "" } = data;
+            const userResponse = await fetch(
+              `${config.apiBaseUrl}/v1/user/me`,
+              { method: "GET", headers: { token } }
+            );
+            const user = await userResponse.json();
+            console.log({ user });
+            return { ...user, token };
           } else {
-            const errorMessage =
-              res?.message || res?.data?.message || "Failed to authenticate";
+            const errorMessage = data?.message || "Failed to authenticate";
             throw new Error(errorMessage);
           }
         } catch (error: any) {

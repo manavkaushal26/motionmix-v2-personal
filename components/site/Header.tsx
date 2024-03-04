@@ -52,7 +52,7 @@ const Header = async () => {
                 </Link>
               ) : null}
               <AuthButton
-                type={!session ? "signin" : "signout"}
+                authType={!session ? "signIn" : "signOut"}
                 size="sm"
                 className="ml-3"
               />

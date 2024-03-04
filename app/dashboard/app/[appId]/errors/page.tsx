@@ -179,7 +179,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
               <ResponsiveLine
                 data={graphData}
                 colors={{ scheme: "nivo" }}
-                curve="monotoneX"
+                // curve="monotoneX"
                 margin={{ top: 15, right: 110, bottom: 50, left: 60 }}
                 xScale={{ type: "point" }}
                 yScale={{
@@ -290,7 +290,11 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
       <section className="mt-5">
         <Card className="bg-[#161616]">
           <CardContent className="p-6">
-            <DataTable columns={columns} data={errorsList} />
+            <DataTable
+              columns={columns}
+              data={errorsList}
+              loading={fetchingErrorsList}
+            />
           </CardContent>
         </Card>
       </section>
