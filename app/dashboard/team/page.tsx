@@ -1,32 +1,44 @@
 "use client";
 
+import DeactivateUserForm from "@/components/forms/deactivate-user";
+import UpdateTeamMemberForm from "@/components/forms/update-team-member";
 import { DataTable } from "@/components/global/DataTable";
 import FadeUp from "@/components/global/FadeUp";
 import UserAvatar from "@/components/global/UserAvatar";
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { TeamMember } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, copyTextToClipboard, isAdmin } from "@/lib/utils";
 import { api } from "@/services/api";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import {
   CheckCheck,
   CheckCircle,
+  Copy,
   LucideIcon,
   MoreHorizontal,
-  ShieldAlert,
+  SquarePen,
+  UserRoundMinus,
+  UserRoundPlus,
   XCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type Props = {};
@@ -62,24 +74,47 @@ const TeamsPage = (props: Props) => {
   const [teamMembersData, setTeamMembersData] = useState<{
     users: Array<TeamMember>;
   }>({ users: [] });
+  const [activatingUser, setActivatingUser] = useState<boolean>(false);
+
+  const fetchTeamMembers = useCallback(async () => {
+    setFetchingTeamMembers(true);
+    try {
+      const res = await api.fetchOrganizationTeam();
+      if (res.kind === "ok") {
+        setTeamMembersData(res.data);
+      } else {
+        toast.error(res?.message || "Failed to fetch users");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while fetching users");
+    } finally {
+      setFetchingTeamMembers(false);
+    }
+  }, []);
+
+  const handleActivate = async (memberId: string) => {
+    setActivatingUser(true);
+    const loadingToast = toast.loading("Activating user...");
+    try {
+      const res = await api.activateUser(memberId);
+      if (res.kind === "ok") {
+        toast.success(res.data.message || "Success");
+        await fetchTeamMembers();
+      } else {
+        throw new Error(res.data.message || "Failed");
+      }
+    } catch (error: any) {
+      console.error(`Error activating user:`, error);
+      toast.error(error?.message || `Failed to activate user`);
+    } finally {
+      setActivatingUser(false);
+      toast.dismiss(loadingToast);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      setFetchingTeamMembers(true);
-      try {
-        const res = await api.fetchOrganizationTeam();
-        if (res.kind === "ok") {
-          setTeamMembersData(res.data);
-        } else {
-          toast.error(res?.message || "Failed to fetch users");
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error("An error occurred while fetching users");
-      } finally {
-        setFetchingTeamMembers(false);
-      }
-    })();
+    fetchTeamMembers();
   }, []);
 
   const columns: ColumnDef<TeamMember>[] = [
@@ -108,21 +143,20 @@ const TeamsPage = (props: Props) => {
         return (
           <div>
             <p>{row.getValue("email")}</p>
-            {row.index === 1 ? (
-              <CBadge
+
+            {/* <CBadge
                 text="Not verified"
                 variant="danger"
                 size="sm"
                 Icon={ShieldAlert}
-              />
-            ) : (
-              <CBadge
-                text="Verified"
-                variant="success"
-                size="sm"
-                Icon={CheckCheck}
-              />
-            )}
+              /> */}
+
+            <CBadge
+              text="Verified"
+              variant="success"
+              size="sm"
+              Icon={CheckCheck}
+            />
           </div>
         );
       },
@@ -141,7 +175,7 @@ const TeamsPage = (props: Props) => {
         return row.getValue("isActive") ? (
           <CBadge text="Active" variant="success" Icon={CheckCircle} />
         ) : (
-          <CBadge text="Not verified" variant="danger" Icon={XCircle} />
+          <CBadge text="Not active" variant="danger" Icon={XCircle} />
         );
       },
     },
@@ -165,8 +199,7 @@ const TeamsPage = (props: Props) => {
       size: 100,
       enableHiding: false,
       cell: ({ row }) => {
-        const teamMember = row.original;
-
+        const member = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -175,12 +208,92 @@ const TeamsPage = (props: Props) => {
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View teamMember details</DropdownMenuItem>
+            <DropdownMenuContent align="end" className="text-sm">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <SquarePen size={14} className="inline mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Edit member details</DialogTitle>
+                    <DialogDescription>
+                      Make changes to team profile here. Click save when
+                      you&apos;re done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <UpdateTeamMemberForm teamMemberToEdit={member} />
+                </DialogContent>
+              </Dialog>
+              <DropdownMenuItem
+                onClick={async () => {
+                  try {
+                    await copyTextToClipboard(member._id as string);
+                    toast.success("Member ID copied!");
+                  } catch {
+                    toast.error("Error while copying member id!");
+                  }
+                }}
+              >
+                <Copy size={14} className="inline mr-2" />
+                Copy ID
+              </DropdownMenuItem>
+              {!isAdmin(member.role) ? (
+                <>
+                  <DropdownMenuSeparator />
+                  {row.getValue("isActive") ? (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          <UserRoundMinus size={14} className="inline mr-2" />
+                          Deactivate
+                        </DropdownMenuItem>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Are you absolutely sure?</DialogTitle>
+                          <DialogDescription>
+                            <div className="mt-5 space-y-4">
+                              <p>
+                                After deactivation, access to this account with
+                                email{" "}
+                                <span className="text-foreground">
+                                  {member.email}
+                                </span>{" "}
+                                will be restricted.
+                              </p>
+                              <p>
+                                To proceed with deactivation, please type{" "}
+                                <code className="text-amber-500">
+                                  deactivate
+                                </code>{" "}
+                                in the box below and click &apos;Confirm&apos;.
+                              </p>
+                              <DeactivateUserForm
+                                memberId={member._id}
+                                fetchTeamMembers={fetchTeamMembers}
+                              />
+                            </div>
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+                  ) : (
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleActivate(member._id);
+                      }}
+                      disabled={activatingUser}
+                    >
+                      <UserRoundPlus size={14} className="inline mr-2" />
+                      Activate
+                    </DropdownMenuItem>
+                  )}
+                </>
+              ) : null}
             </DropdownMenuContent>
           </DropdownMenu>
         );

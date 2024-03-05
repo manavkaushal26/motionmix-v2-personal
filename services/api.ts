@@ -4,6 +4,7 @@ import { config } from "@/lib/globalConfig";
 import { AppMeta } from "@/lib/types";
 import { ApisauceInstance, create } from "apisauce";
 import { getSession, signOut } from "next-auth/react";
+
 import * as Types from "./api.types";
 import { getGeneralApiProblem } from "./apiProblem";
 
@@ -169,7 +170,7 @@ export class Api {
     const rawRes: any = res?.data;
     return { kind: "ok", data: rawRes };
   }
-  async updateOrgUserDetails(id: string, data: any): Promise<any> {
+  async updateTeamMemberDetails(id: string, data: any): Promise<any> {
     const res = await this.apisauce.put("/v1/user/" + id, {
       ...data,
     });
@@ -235,9 +236,13 @@ api.apisauce.addAsyncRequestTransform((request) => async () => {
 });
 
 const errorMessages = ["no token found", "jwt malformed", "invalid token"];
+const adminErrorMessages = ["admin only routes"];
 
 api.apisauce.addResponseTransform((response) => {
   if (errorMessages.includes(response?.data?.message?.toLowerCase())) {
+    signOut();
+  }
+  if (adminErrorMessages.includes(response?.data?.message?.toLowerCase())) {
     signOut();
   }
 });

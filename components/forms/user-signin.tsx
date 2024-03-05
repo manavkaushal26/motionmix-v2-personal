@@ -3,13 +3,14 @@
 import Spinner from "@/components/global/Spinner";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Key, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import PasswordInput from "../global/PasswordInput";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -92,9 +93,8 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
           render={({ field }) => (
             <FormItem className="flex-1">
               <FormControl>
-                <Input
+                <PasswordInput
                   type="password"
-                  Icon={Key}
                   placeholder="Password"
                   {...field}
                 />

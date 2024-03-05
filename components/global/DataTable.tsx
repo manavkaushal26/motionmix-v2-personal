@@ -60,7 +60,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
     },
-    debugTable: true,
   });
 
   return (
