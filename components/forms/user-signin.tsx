@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/global/Spinner";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Key, Mail } from "lucide-react";
@@ -23,9 +24,7 @@ type Props = { callbackUrl: string };
 
 const FormSchema = z.object({
   email: z.string().min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
 const UserSignInForm = ({ callbackUrl }: Props) => {
@@ -52,7 +51,9 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
           callbackUrl: callbackUrl,
         });
         if (response?.ok) {
-          toast.success("Successful login confirmed. Welcome back.");
+          toast.success("Successful login confirmed. Welcome back!", {
+            description: "Redirecting...",
+          });
           router.push(response.url as string);
           router.refresh();
         } else {
@@ -105,7 +106,7 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
         <Link
           href="/forgot-password"
           className={cn(
-            "w-fit text-sm ml-auto hover:underline text-muted-foreground hover:text-foreground duration-200"
+            "w-fit text-xs ml-auto hover:underline text-muted-foreground hover:text-foreground duration-200"
           )}
         >
           Forgot Password?
@@ -113,12 +114,13 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
         <Button
           size="sm"
           type="submit"
+          variant="secondary"
           disabled={isLoading}
-          className="w-full mt-5"
+          className="mt-4"
         >
-          Sign In
+          {isLoading ? <Spinner /> : "Sign In"}
         </Button>
-        <p className="mt-2 text-sm text-center text-muted-foreground">
+        <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link
             href={`/signup?callbackUrl=${callbackUrl}`}

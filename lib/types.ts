@@ -1,3 +1,5 @@
+import { Role } from "./enums";
+
 interface MongoBase {
   _id: string;
   __v: number;
@@ -36,4 +38,15 @@ export interface SingleError extends MongoBase {
   session: string;
   count: number;
   trace?: string;
+}
+
+export interface TeamMember extends MongoBase {
+  name: string;
+  role: Role;
+  isAdmin: boolean;
+  organization: string;
+  orgRole: string;
+  email: string;
+  isActive: boolean;
+  point: number;
 }

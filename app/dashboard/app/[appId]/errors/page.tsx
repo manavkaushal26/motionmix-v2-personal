@@ -1,5 +1,6 @@
 "use client";
 
+import PageHeader from "@/components/dashboard/PageHeader";
 import SlackTrace from "@/components/dashboard/errors/SlackTrace";
 import { DataTable } from "@/components/global/DataTable";
 import FadeUp from "@/components/global/FadeUp";
@@ -11,7 +12,7 @@ import { api } from "@/services/api";
 import { ResponsiveLine } from "@nivo/line";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ShieldX } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -159,10 +160,8 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
   return (
     <FadeUp>
       <section className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">Errors Dashboard</h1>
-        </div>
-        <p className="text-muted-foreground">Date range selector</p>
+        <PageHeader Icon={ShieldX} title="Error Dashboard" />
+        <div className="text-muted-foreground">Date range selector</div>
       </section>
       <Separator className="my-4" />
       {/* Graph */}

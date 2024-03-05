@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { isAdmin } from "@/lib/utils";
 import {
   ChevronsUpDown,
   Compass,
@@ -19,6 +20,7 @@ import {
   Users,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 type Props = { user: any };
 
@@ -34,8 +36,8 @@ const UserCard = ({ user }: Props) => {
             <Compass />
             <div className="flex flex-col capitalize">
               {user.name}{" "}
-              <span className="text-muted-foreground capitalize">
-                {user.role}
+              <span className="text-muted-foreground capitalize max-w-[165px] pr-5 truncate">
+                {user.orgRole}
               </span>
             </div>
           </div>
@@ -45,26 +47,36 @@ const UserCard = ({ user }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-muted-foreground">
+          My Account
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem disabled>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-          </DropdownMenuItem>
+          {isAdmin(user.role) ? (
+            <DropdownMenuItem disabled>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Billing</span>
+            </DropdownMenuItem>
+          ) : null}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Users className="mr-2 h-4 w-4" />
-            <span>Team</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+        {isAdmin(user.role) ? (
+          <>
+            <DropdownMenuGroup>
+              <Link href="/dashboard/team">
+                <DropdownMenuItem>
+                  <Users className="mr-2 h-4 w-4" />
+                  <span>Team</span>
+                </DropdownMenuItem>
+              </Link>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+          </>
+        ) : null}
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

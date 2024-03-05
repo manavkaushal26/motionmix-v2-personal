@@ -1,6 +1,6 @@
 import UserSignInForm from "@/components/forms/user-signin";
+import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -14,7 +14,7 @@ type Props = {
 
 const SignInPage = ({ searchParams }: Props) => {
   return (
-    <Card className="w-full shadow-lg !rounded-lg">
+    <CardSpotlightBorder className="bg-background w-full shadow-lg !rounded-xl">
       <CardHeader className="text-center">
         <div className="mb-2 flex items-center justify-center space-x-2">
           <div className="relative w-5 aspect-square">
@@ -30,7 +30,7 @@ const SignInPage = ({ searchParams }: Props) => {
       <CardContent className="mt-2">
         <UserSignInForm callbackUrl={searchParams?.callbackUrl || "/"} />
       </CardContent>
-    </Card>
+    </CardSpotlightBorder>
   );
 };
 

@@ -35,7 +35,7 @@ export class Api {
     }
     return { kind: "ok", data: res?.data?.apps };
   }
-  async getSingleApp(appId: string): Promise<Types.SingleAppRes> {
+  async getSingleApp(appId: string): Promise<any> {
     const res = await this.apisauce.get(`/v1/app/${appId}`);
     if (!res.ok) {
       const problem = getGeneralApiProblem(res);
@@ -59,7 +59,7 @@ export class Api {
       const problem = getGeneralApiProblem(res);
       if (problem) return problem;
     }
-    return { kind: "ok", data: res?.data as Types.SessionBase[] };
+    return { kind: "ok", data: res?.data as any };
   }
   async getAllSessionsByAppId(
     appId: string,
@@ -84,7 +84,7 @@ export class Api {
       const problem = getGeneralApiProblem(res);
       if (problem) return problem;
     }
-    return { kind: "ok", data: res?.data as Types.SingleSession };
+    return { kind: "ok", data: res?.data as any };
   }
   // SESSIONS END
 
@@ -137,7 +137,7 @@ export class Api {
     }
     return { kind: "ok" };
   }
-  async verifyCode(data): Promise<Types.ForgetPasswordRes> {
+  async verifyCode(data: any): Promise<Types.ForgetPasswordRes> {
     const { userId, code, password } = data;
     const res = await this.apisauce.post("/v1/auth/verify", {
       id: userId,
@@ -169,10 +169,7 @@ export class Api {
     const rawRes: any = res?.data;
     return { kind: "ok", data: rawRes };
   }
-  async updateOrgUserDetails(
-    id: string,
-    data: EditUserFormValues
-  ): Promise<any> {
+  async updateOrgUserDetails(id: string, data: any): Promise<any> {
     const res = await this.apisauce.put("/v1/user/" + id, {
       ...data,
     });
@@ -194,7 +191,7 @@ export class Api {
     const rawRes: any = res?.data;
     return { kind: "ok", data: rawRes };
   }
-  async updateUserDetails(data: UpdateUserDetailsFormValues): Promise<any> {
+  async updateUserDetails(data: any): Promise<any> {
     const res = await this.apisauce.put("/v1/user", data);
     if (!res.ok) {
       const problem = getGeneralApiProblem(res);
@@ -202,7 +199,7 @@ export class Api {
     }
     return { kind: "ok" };
   }
-  async updatePassword(data: UpdatePasswordFormValues): Promise<any> {
+  async updatePassword(data: any): Promise<any> {
     const res = await this.apisauce.put("/v1/user/password", data);
     if (!res.ok) {
       const problem = getGeneralApiProblem(res);
@@ -211,6 +208,17 @@ export class Api {
     return { kind: "ok", data: res.data };
   }
   // AUTH END
+
+  // ORGANIZATION START
+  async fetchOrganizationTeam(): Promise<Types.fetchOrganizationTeamRes> {
+    const res = await this.apisauce.get("/v1/user");
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res?.data as any };
+  }
+  // ORGANIZATION END
 }
 
 export const api = new Api();
@@ -218,7 +226,6 @@ api.apisauce.setBaseURL(config.apiBaseUrl);
 
 api.apisauce.addAsyncRequestTransform((request) => async () => {
   const authSession = await getSession();
-  console.log({ authSession });
   const userToken = authSession?.user?.token || request?.headers?.token;
   if (userToken) {
     request.headers!.token = userToken;

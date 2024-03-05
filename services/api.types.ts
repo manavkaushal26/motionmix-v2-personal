@@ -1,5 +1,5 @@
 // import { User, Version } from "@utils/types";
-import { AppMeta, SessionMeta } from "@/lib/types";
+import { AppMeta, SessionMeta, TeamMember } from "@/lib/types";
 import { GeneralApiProblem } from "./apiProblem";
 
 export interface ApiConfig {
@@ -26,3 +26,8 @@ export type SingleSessionRes =
   | GeneralApiProblem
   | { kind: "ok"; data: SessionMeta };
 export type ForgetPasswordRes = SuccessBase | GeneralApiProblem;
+
+// ORGANIZATION
+export type fetchOrganizationTeamRes =
+  | { kind: "ok"; data: { users: Array<TeamMember> } }
+  | GeneralApiProblem;

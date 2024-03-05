@@ -22,7 +22,9 @@ type Props = {
 
 const DashboardSidebar = ({ session, appsList }: Props) => {
   const { appId = "" } = useParams();
-  const [selectedApp, setSelectedApp] = useState<string>(appId as string);
+  const [selectedApp, setSelectedApp] = useState<string>(
+    (appId as string) || appsList[0]?._id
+  );
 
   const segments = useSelectedLayoutSegments();
   const lastSegment = segments[segments.length - 1];

@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { imageKit } from "./globalConfig";
+import { Role } from "./enums";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -88,3 +89,10 @@ export const copyTextToClipboard = async (text: string) => {
     throw new Error(error?.message);
   }
 };
+
+export function isAdmin(role: Role) {
+  if (role.toLowerCase() === Role.Admin || role.toLowerCase() === Role.Owner) {
+    return true;
+  }
+  return false;
+}

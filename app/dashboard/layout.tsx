@@ -1,9 +1,6 @@
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import Notifications from "@/components/dashboard/Notifications";
-import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
-import { Bell, Menu } from "lucide-react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -47,7 +44,8 @@ const DashboardLayout = async ({ children }: Props) => {
         </div>
 
         <div className="lg:pl-72">
-          <div className="dark:bg-custom-zinc px-4 sm:px-6 lg:px-8 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b shadow-sm sm:gap-x-6">
+          {/* InfoBar */}
+          {/* <div className="dark:bg-custom-zinc px-4 sm:px-6 lg:px-8 sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b shadow-sm sm:gap-x-6">
             <button
               type="button"
               className="-m-2.5 p-2.5 lg:hidden"
@@ -57,18 +55,15 @@ const DashboardLayout = async ({ children }: Props) => {
               <Menu className="h-6 w-6" aria-hidden="true" />
             </button>
 
-            {/* Separator */}
             <div className="h-6 w-px lg:hidden" aria-hidden="true" />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <div className="w-full" />
               <div className="flex items-center gap-x-3">
                 <Notifications />
-                {/* <ModeToggle /> */}
-                {/* <AuthButton authType="signOut" size="sm" /> */}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <main className="py-8">
             <div className="px-4 sm:px-6 lg:px-8">{children}</div>

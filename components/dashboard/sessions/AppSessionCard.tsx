@@ -1,6 +1,6 @@
 "use client";
 
-import { SingleSession } from "@/lib/types";
+import { SessionMeta } from "@/lib/types";
 import { formatSeconds } from "@/lib/utils";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import CardSpotlight from "../../global/CardSpotlight";
 import { Separator } from "../../ui/separator";
 
 type Props = {
-  appSession: SingleSession;
+  appSession: SessionMeta;
 };
 
 const AppSessionCard = ({ appSession }: Props) => {
