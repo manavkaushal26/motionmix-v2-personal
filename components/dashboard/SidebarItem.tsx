@@ -3,7 +3,7 @@
 import { SidebarNavItem } from "@/lib/mocks/dashboard";
 import { cn } from "@/lib/utils";
 import { AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -42,7 +42,8 @@ const SidebarItem = ({ item, lastSegment, appId }: Props) => {
             )}
           >
             {item.icon ? <item.icon size={18} /> : null}
-            <span>{item.label}</span>
+            <span className="flex-1">{item.label}</span>
+            {item.href && item.newTab ? <ExternalLink size={14} /> : null}
           </p>
         </Link>
 
