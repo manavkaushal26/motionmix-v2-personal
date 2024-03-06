@@ -41,7 +41,6 @@ export const authOptions = {
               { method: "GET", headers: { token } }
             );
             const user = await userResponse.json();
-            console.log({ user });
             return { ...user, token };
           } else {
             const errorMessage = data?.message || "Failed to authenticate";

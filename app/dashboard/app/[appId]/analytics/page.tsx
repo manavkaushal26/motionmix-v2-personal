@@ -1,7 +1,13 @@
+import ComingSoon from "@/components/global/ComingSoon";
+
 type Props = {};
 
 const AnalyticsPage = (props: Props) => {
-  return <div>AnalyticsPage</div>;
+  return (
+    <>
+      <ComingSoon />
+    </>
+  );
 };
 
 export default AnalyticsPage;
