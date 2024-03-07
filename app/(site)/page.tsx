@@ -45,7 +45,7 @@ const Home = async () => {
           </p>
           <div className="mt-10 flex items-center space-x-4">
             <Link
-              href={!session ? "/login" : "/dashboard"}
+              href={!session ? "/signin?callbackUrl=/dashboard" : "/dashboard"}
               className={cn(buttonVariants(), "flex items-center group")}
             >
               {!session ? "Get Early Access" : "View Sessions"}
