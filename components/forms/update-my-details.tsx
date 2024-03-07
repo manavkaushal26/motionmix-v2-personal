@@ -159,7 +159,7 @@ const UpdateMyDetailsForm = ({ user }: Props) => {
             render={({ field }) => (
               <FormItem className="col-span-3">
                 <FormLabel className="text-muted-foreground">
-                  Email Address
+                  Organization Role
                 </FormLabel>
                 <FormControl>
                   <Input

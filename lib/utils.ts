@@ -81,7 +81,7 @@ export function isAdmin(role: Role) {
   return false;
 }
 
-export function generateRandomPassword(length: number = 8): string {
+export function generateRandomPassword(length: number = 16): string {
   const charTypes: CharType[] = [
     CharType.Uppercase,
     CharType.Lowercase,

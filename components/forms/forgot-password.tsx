@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/global/Spinner";
 import { cn } from "@/lib/utils";
 import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,10 +41,10 @@ const ForgotPasswordForm = (props: Props) => {
       if (email) {
         const res: any = await api.getPasswordResetLink(values.email);
         if (res.kind === "ok") {
-          form.setValue("email", "");
           toast.success("Reset link sent!", {
             description: "Check your email for a reset link.",
           });
+          form.reset();
         } else {
           toast.error(res?.message || "Something went wrong!");
         }
@@ -83,8 +84,14 @@ const ForgotPasswordForm = (props: Props) => {
           >
             Login
           </Link>
-          <Button size="sm" type="submit" disabled={isLoading}>
-            Request Link
+          <Button
+            size="sm"
+            type="submit"
+            variant="secondary"
+            disabled={isLoading}
+          >
+            {isLoading ? <Spinner /> : null}
+            <span className="ml-2">Request Link</span>
           </Button>
         </div>
       </form>

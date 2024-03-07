@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "@/components/forms/forgot-password";
+import ResetPasswordForm from "@/components/forms/reset-password";
 import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import {
   CardContent,
@@ -8,11 +8,13 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 
-type Props = {};
+type Props = { params: { userId: string; code: string } };
 
-const ForgotPasswordPage = (props: Props) => {
+const ResetPasswordPage = ({ params }: Props) => {
+  const { userId = "", code = "" } = params;
+
   return (
-    <CardSpotlightBorder className="w-full bg-background shadow-lg !rounded-xl">
+    <CardSpotlightBorder className="w-full bg-background shadow-lg !rounded-lg">
       <CardHeader className="text-left">
         <div className="mb-2 flex items-center justify-start space-x-2">
           <div className="relative w-5 aspect-square">
@@ -22,17 +24,16 @@ const ForgotPasswordPage = (props: Props) => {
             MOTION<span className="text-bold">MIX</span>
           </p>
         </div>
-        <CardTitle>Forgot Password?</CardTitle>
-        <CardDescription className="pt-2 leading-normal">
-          No Worries. We&apos;ll email you the password reset link. <br />
-          This link will be active for next 1 hour
+        <CardTitle>Reset Password</CardTitle>
+        <CardDescription>
+          Please choose your new password below:
         </CardDescription>
       </CardHeader>
       <CardContent className="mt-1">
-        <ForgotPasswordForm />
+        <ResetPasswordForm userId={userId} code={code} />
       </CardContent>
     </CardSpotlightBorder>
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;
