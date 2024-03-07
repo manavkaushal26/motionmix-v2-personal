@@ -95,7 +95,7 @@ const SlackTrace = ({ errorId }: Props) => {
                           {singleError?.name?.split(":")[0]}
                         </h3>
                         <time className="text-xs tracking-tight dark:text-muted-foreground">
-                          {dayjs(singleError?.createdAt).format(
+                          {dayjs(singleError?.updatedAt).format(
                             "DD MMMM, YYYY"
                           )}
                         </time>

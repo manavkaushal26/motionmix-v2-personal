@@ -1,5 +1,6 @@
 "use client";
 
+import DatePickerWithRange from "@/components/dashboard/DatePickerWithRange";
 import PageHeader from "@/components/dashboard/PageHeader";
 import SlackTrace from "@/components/dashboard/errors/SlackTrace";
 import { DataTable } from "@/components/global/DataTable";
@@ -12,10 +13,13 @@ import { api } from "@/services/api";
 import { ResponsiveLine } from "@nivo/line";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { ExternalLink, ShieldX } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+
+dayjs.extend(utc);
 
 type Props = { params: { appId: string }; searchParams: {} };
 
@@ -23,7 +27,7 @@ function generateFakeData(count: number) {
   const data = [];
   const today = new Date();
   const endDate = new Date();
-  const startDate = new Date(today.setDate(today.getDate() - 14)); // Calculate start date
+  const startDate = new Date(today.setDate(today.getDate() - 7)); // Calculate start date
 
   while (startDate <= endDate) {
     const randomCount = Math.floor(Math.random() * count) + 1; // Random count between 1 and 15
@@ -48,14 +52,16 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
     return [
       {
         id: "Errors",
-        data: generateFakeData(100), // 1 to 100
+        data: stats.events.map((stat) => {
+          return { x: stat.createdAt, y: stat.count };
+        }),
       },
-      {
-        id: "Users Effected",
-        data: generateFakeData(30), // 1 to 30
-      },
+      // {
+      //   id: "Users Effected",
+      //   data: generateFakeData(30), // 1 to 30
+      // },
     ];
-  }, []);
+  }, [stats.events]);
 
   const fetchErrorStats = async () => {
     setFetchingStats(true);
@@ -161,7 +167,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
     <FadeUp>
       <section className="flex items-center justify-between">
         <PageHeader Icon={ShieldX} title="Error Dashboard" />
-        <div className="text-muted-foreground">Date range selector</div>
+        <DatePickerWithRange />
       </section>
       <Separator className="my-4" />
       {/* Graph */}
@@ -170,7 +176,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle>Errors</CardTitle>
             <div>
-              <p className="text-muted-foreground">Last 16 Days</p>
+              <p className="text-muted-foreground">Last 7 Days</p>
             </div>
           </CardHeader>
           <CardContent>
@@ -196,6 +202,9 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
                   legendOffset: 36,
                   legendPosition: "middle",
                   truncateTickAt: 0,
+                  format: function (value) {
+                    return dayjs.utc(value).format("DD-MMM-YY");
+                  },
                 }}
                 axisLeft={{
                   tickSize: 5,
@@ -227,7 +236,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
                         <p>
                           Date:{" "}
                           <span className="text-muted-foreground">
-                            {point?.data?.x}
+                            {dayjs.utc(point?.data?.x).format("DD-MMM-YY")}
                           </span>
                         </p>
                         <p>
