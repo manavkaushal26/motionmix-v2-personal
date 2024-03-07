@@ -3,7 +3,14 @@ import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import GradientBadge from "@/components/global/GradientBadge";
 import MaxWidthWrapper from "@/components/global/MaxWidthWrapper";
 import HeroCanvas from "@/components/site/HeroCanvas";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/authOptions";
 import { cn } from "@/lib/utils";
 import {
@@ -25,46 +32,47 @@ const Home = async () => {
   const session = await auth();
 
   return (
-    <div className="relative h-screen w-full">
-      {/* HERO SECTION */}
-      <MaxWidthWrapper className="absolute inset-0 w-full h-full flex items-center justify-center z-20">
-        <div className="flex flex-col items-center justify-center text-center">
-          <GradientBadge variant="normal">
-            <TabletSmartphone size={14} />
-            <span>MotionMix is Now Open for Everyone</span>
-          </GradientBadge>
-          <h1 className="mt-2 text-6xl font-light text-foreground">
-            Supercharge Your 3D App
-          </h1>
-          <h2 className="text-6xl font-semibold text-motionmix leading-normal">
-            Visualize, Analyze, Optimize
-          </h2>
-          <p className="text-foreground mt-4">
-            Track your users through Heatmaps and Recorded sessions to uncover
-            the missing pieces!
-          </p>
-          <div className="mt-10 flex items-center space-x-4">
-            <Link
-              href={!session ? "/signin?callbackUrl=/dashboard" : "/dashboard"}
-              className={cn(buttonVariants(), "flex items-center group")}
-            >
-              {!session ? "Get Early Access" : "View Sessions"}
-            </Link>
-            <Link
-              href="/how-it-works"
-              className={cn(
-                buttonVariants({ variant: "link" }),
-                "flex items-center group"
-              )}
-            >
-              How it works?
-            </Link>
+    <div>
+      <div className="relative h-screen w-full">
+        <MaxWidthWrapper className="absolute inset-0 w-full h-full flex items-center justify-center z-20">
+          <div className="flex flex-col items-center justify-center text-center">
+            <GradientBadge variant="normal">
+              <TabletSmartphone size={14} />
+              <span>MotionMix is Now Open for Everyone</span>
+            </GradientBadge>
+            <h1 className="mt-2 text-6xl font-light text-foreground">
+              Supercharge Your 3D App
+            </h1>
+            <h2 className="text-6xl font-semibold text-motionmix leading-normal">
+              Visualize, Analyze, Optimize
+            </h2>
+            <p className="text-foreground mt-4">
+              Track your users through Heatmaps and Recorded sessions to uncover
+              the missing pieces!
+            </p>
+            <div className="mt-10 flex items-center space-x-4">
+              <Link
+                href={
+                  !session ? "/signin?callbackUrl=/dashboard" : "/dashboard"
+                }
+                className={cn(buttonVariants(), "flex items-center group")}
+              >
+                {!session ? "Get Early Access" : "View Sessions"}
+              </Link>
+              <Link
+                href="/how-it-works"
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "flex items-center group"
+                )}
+              >
+                How it works?
+              </Link>
+            </div>
           </div>
-        </div>
-      </MaxWidthWrapper>
-      <HeroCanvas />
-      {/* HERO SECTION ENDS */}
-
+        </MaxWidthWrapper>
+        <HeroCanvas />
+      </div>
       {/* FEATURES SECTIONS */}
       <MaxWidthWrapper className="w-full mt-10">
         <div>
@@ -145,7 +153,7 @@ const Home = async () => {
           </div>
           {!session ? (
             <CardSpotlight className="mt-4">
-              <div className="flex w-full items-center justify-between p-4">
+              <div className="z-10 flex w-full items-center justify-between p-4">
                 <p className="text-2xl font-bold">Try MotionMix Today</p>
                 <Link href="" className={cn(buttonVariants())}>
                   Get Started
@@ -336,6 +344,73 @@ const Home = async () => {
               <span className="text-foreground">23 May, 2024</span>.
             </p>
           </div>
+        </div>
+      </MaxWidthWrapper>
+
+      {/* FAQS */}
+      <MaxWidthWrapper className="w-full mt-20" id="pricing">
+        <div>
+          <p className="text-4xl font-semibold leading-tight text-center">
+            Frequently Asked Questions
+          </p>
+          <Accordion type="single" collapsible className="mt-10 space-y-4">
+            {[
+              {
+                id: "q1",
+                question:
+                  "How does the platform track user interactions within a 3D app?",
+                answer:
+                  "Our platform utilizes advanced tracking mechanisms, including event tracking and data collection libraries, to monitor and capture user interactions in real-time within your 3D application.",
+              },
+              {
+                id: "q2",
+                question:
+                  "Can I integrate the analytics platform into my existing 3D application?",
+                answer:
+                  "Absolutely! Our analytics platform provides easy-to-use SDKs and integration guides, allowing seamless integration with your existing 3D application across various platforms and frameworks.",
+              },
+              {
+                id: "q3",
+                question: "Will the integration slow down my App's performance",
+                answer:
+                  "No, integrating MotionMix won't affect your App's performance. Our SDK transmits data in Kbs for each recorded session and all the heavy lifting is done at our end.",
+              },
+              {
+                id: "q4",
+                question:
+                  "What kind of insights can I gain from the recorded sessions feature?",
+                answer:
+                  "The recorded sessions feature enables you to replay and analyze actual user sessions, gaining deep insights into user behavior, navigation patterns, feature usage, and any obstacles or challenges users encounter during their app journey.",
+              },
+              {
+                id: "q5",
+                question:
+                  "How do heatmaps help in optimizing my 3D app's performance?",
+                answer:
+                  "Heatmaps provide visual representations of user engagement and interaction patterns within your 3D app. By analyzing heatmaps, you can identify popular areas, interaction hotspots, and potential usability issues, helping you optimize the app's performance, user interface, and overall user experience.",
+              },
+              {
+                id: "q6",
+                question:
+                  "Is my users' data and privacy protected with your analytics platform?",
+                answer:
+                  "Yes, data privacy and security are our top priorities. We adhere to strict data protection protocols and ensure that all user data is anonymized and securely stored. We also provide customizable privacy settings, allowing you to control the data collection and comply with privacy regulations.",
+              },
+            ].map((faq, i) => {
+              return (
+                <AccordionItem key={faq.id} value={faq.id}>
+                  <Card>
+                    <CardContent className="p-0 px-4">
+                      <AccordionTrigger>{faq.question}</AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground">
+                        {faq.answer}
+                      </AccordionContent>
+                    </CardContent>
+                  </Card>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
         </div>
       </MaxWidthWrapper>
     </div>

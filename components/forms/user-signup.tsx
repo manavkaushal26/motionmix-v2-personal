@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import PasswordInput from "../global/PasswordInput";
 import Spinner from "../global/Spinner";
 import { Button } from "../ui/button";
 import {
@@ -134,9 +135,8 @@ const UserSignUpForm = ({ callbackUrl }: Props) => {
           render={({ field }) => (
             <FormItem className="col-span-2">
               <FormControl>
-                <Input
+                <PasswordInput
                   type="password"
-                  Icon={Key}
                   placeholder="Password"
                   {...field}
                 />

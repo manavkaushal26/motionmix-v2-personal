@@ -7,7 +7,7 @@ const ComingSoon = (props: Props) => {
       <p className="text-muted-foreground max-w-[768px] mt-4">
         Our team is actively working on enhancing the current feature. We
         anticipate its availability in the near future. Stay connected for
-        updates, and thank you for your patience!
+        updates, and thank you for your patience.
       </p>
     </div>
   );
