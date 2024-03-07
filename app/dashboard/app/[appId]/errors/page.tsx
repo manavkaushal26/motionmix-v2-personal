@@ -175,9 +175,9 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
         <Card className="bg-[#161616]">
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle>Errors</CardTitle>
-            <div>
+            {/* <div>
               <p className="text-muted-foreground">Last 7 Days</p>
-            </div>
+            </div> */}
           </CardHeader>
           <CardContent>
             <div className="w-full h-[400px]">

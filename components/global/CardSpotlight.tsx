@@ -5,16 +5,21 @@ import React, { ReactNode, useRef, useState } from "react";
 type Props = {
   children: ReactNode;
   className?: string;
+  cursorEffect?: boolean;
 };
 
-const CardSpotlight = ({ children, className = "" }: Props) => {
+const CardSpotlight = ({
+  children,
+  cursorEffect = true,
+  className = "",
+}: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!divRef.current || isFocused) return;
+    if (!divRef.current) return;
 
     const div = divRef.current;
     const rect = div.getBoundingClientRect();
@@ -53,13 +58,15 @@ const CardSpotlight = ({ children, className = "" }: Props) => {
         className
       )}
     >
-      <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
-        style={{
-          opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,182,255,.1), transparent 40%)`,
-        }}
-      />
+      {cursorEffect ? (
+        <div
+          className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+          style={{
+            opacity,
+            background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,182,255,.1), transparent 40%)`,
+          }}
+        />
+      ) : null}
       {children}
     </div>
   );

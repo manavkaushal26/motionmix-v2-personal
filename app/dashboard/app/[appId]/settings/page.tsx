@@ -1,5 +1,6 @@
 import AppKeySecret from "@/components/global/AppKeySecret";
 import CardSpotlight from "@/components/global/CardSpotlight";
+import FadeUp from "@/components/global/FadeUp";
 import { buttonVariants } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -42,7 +43,7 @@ const AppSettingsPage = async ({ params }: Props) => {
   }
 
   return (
-    <div>
+    <FadeUp>
       <div className="flex items-center space-x-3 text-2xl text-muted-foreground font-semibold">
         <Settings size={24} />
         <h1>
@@ -166,7 +167,7 @@ const AppSettingsPage = async ({ params }: Props) => {
           </CardContent>
         </CardSpotlight>
       </section>
-    </div>
+    </FadeUp>
   );
 };
 

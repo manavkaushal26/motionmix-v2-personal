@@ -1,7 +1,16 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { imageKit } from "./globalConfig";
 import { Role } from "./enums";
+import { imageKit } from "./globalConfig";
+
+// ENUMS
+enum CharType {
+  Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  Lowercase = "abcdefghijklmnopqrstuvwxyz",
+  Digit = "0123456789",
+  Special = "!@#$%^&*()_-+=<>?/{}[]|",
+}
+// ENUMS
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -65,7 +74,44 @@ export function formatNumber(number: number) {
   return new Intl.NumberFormat().format(number);
 }
 
-export const copyTextToClipboard = async (text: string) => {
+export function isAdmin(role: Role) {
+  if (role.toLowerCase() === Role.Admin || role.toLowerCase() === Role.Owner) {
+    return true;
+  }
+  return false;
+}
+
+export function generateRandomPassword(length: number = 8): string {
+  const charTypes: CharType[] = [
+    CharType.Uppercase,
+    CharType.Lowercase,
+    CharType.Digit,
+    CharType.Special,
+  ];
+  let chars = charTypes.map((type) => type.split("")).flat();
+
+  let password = "";
+  charTypes.forEach((type) => {
+    const randomChar = type[Math.floor(Math.random() * type.length)];
+    password += randomChar;
+    chars = chars.filter((char) => char !== randomChar);
+  });
+
+  for (let i = password.length; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    password += chars[randomIndex];
+  }
+
+  password = password
+    .split("")
+    .sort(() => Math.random() - 0.5)
+    .join("");
+
+  return password;
+}
+
+// ASYNC FUNCTIONS
+export async function copyTextToClipboard(text: string) {
   try {
     if (!navigator.clipboard) {
       // For older browsers or if clipboard API is not supported
@@ -88,11 +134,4 @@ export const copyTextToClipboard = async (text: string) => {
   } catch (error: any) {
     throw new Error(error?.message);
   }
-};
-
-export function isAdmin(role: Role) {
-  if (role.toLowerCase() === Role.Admin || role.toLowerCase() === Role.Owner) {
-    return true;
-  }
-  return false;
 }

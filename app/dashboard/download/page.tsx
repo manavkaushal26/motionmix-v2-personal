@@ -1,3 +1,4 @@
+import FadeUp from "@/components/global/FadeUp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sdkReleases } from "@/lib/mocks/dashboard";
 
@@ -5,7 +6,7 @@ type Props = {};
 
 const DownloadPage = (props: Props) => {
   return (
-    <>
+    <FadeUp>
       <div className="grid gap-16 sm:grid-cols-2">
         {/* Download card */}
         {/* <motion.div
@@ -147,7 +148,7 @@ const DownloadPage = (props: Props) => {
           </div>
         </CardContent>
       </Card>
-    </>
+    </FadeUp>
   );
 };
 
