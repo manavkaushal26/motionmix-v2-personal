@@ -114,7 +114,9 @@ const ChangePasswordForm = (props: Props) => {
                   </div>
                 </FormControl>
                 {/* <FormMessage /> */}
-                <PasswordStrength password={field.value} />
+                {field.value ? (
+                  <PasswordStrength password={field.value} />
+                ) : null}
               </FormItem>
             )}
           />
@@ -123,6 +125,7 @@ const ChangePasswordForm = (props: Props) => {
             <Button
               size="sm"
               type="submit"
+              variant="secondary"
               disabled={
                 isLoading ||
                 !form.getValues("currentPassword") ||

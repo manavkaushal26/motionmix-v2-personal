@@ -13,8 +13,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, isAdmin } from "@/lib/utils";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
@@ -24,9 +25,15 @@ type Props = {
   appsList: { label: string; value: string }[];
   selectedApp: string;
   setSelectedApp: Dispatch<SetStateAction<string>>;
+  session: Session | null;
 };
 
-const AppsDropdown = ({ appsList, selectedApp, setSelectedApp }: Props) => {
+const AppsDropdown = ({
+  appsList,
+  selectedApp,
+  setSelectedApp,
+  session,
+}: Props) => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -41,6 +48,7 @@ const AppsDropdown = ({ appsList, selectedApp, setSelectedApp }: Props) => {
           className={cn("w-full justify-between", {
             "text-zinc-500 hover:text-zinc-500": !selectedApp,
           })}
+          // disabled={!isAdmin(session?.user?.role)}
         >
           {selectedApp
             ? appsList.find((app) => app.value === selectedApp)?.label
@@ -59,7 +67,15 @@ const AppsDropdown = ({ appsList, selectedApp, setSelectedApp }: Props) => {
               <CommandItem
                 value={""}
                 onSelect={(currentValue) => {
-                  toast.success("App created");
+                  if (isAdmin(session?.user?.role)) {
+                    toast.success("App created");
+                  } else {
+                    toast.error("App creation privileges are restricted.", {
+                      description:
+                        "Kindly reach out to an admin or owner to create an app.",
+                      duration: 6000,
+                    });
+                  }
                   setOpen(false);
                 }}
                 className="cursor-pointer hover:bg-muted"

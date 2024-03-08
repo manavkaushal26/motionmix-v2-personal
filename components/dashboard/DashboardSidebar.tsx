@@ -6,7 +6,9 @@ import {
   sidebarNavigationData,
 } from "@/lib/mocks/dashboard";
 import { AppMeta } from "@/lib/types";
+import { LayoutTemplate } from "lucide-react";
 import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSelectedLayoutSegments } from "next/navigation";
@@ -21,6 +23,7 @@ type Props = {
 };
 
 const DashboardSidebar = ({ session, appsList }: Props) => {
+  const { data: clientSession } = useSession();
   const { appId = "" } = useParams();
   const [selectedApp, setSelectedApp] = useState<string>(
     (appId as string) || appsList[0]?._id
@@ -50,7 +53,25 @@ const DashboardSidebar = ({ session, appsList }: Props) => {
           })}
           selectedApp={selectedApp}
           setSelectedApp={setSelectedApp}
+          session={session}
         />
+        {appsList.length === 0 ? (
+          <p className="text-sm text-muted-foreground mt-4 text-center">
+            No apps found.
+          </p>
+        ) : null}
+        {!selectedApp ? (
+          <ul className="mt-2 text-sm space-y-1">
+            <SidebarItem
+              item={{
+                label: "Dashboard",
+                href: "/dashboard",
+                icon: LayoutTemplate,
+              }}
+              lastSegment={lastSegment}
+            />
+          </ul>
+        ) : null}
         {selectedApp ? (
           <>
             <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
@@ -86,7 +107,8 @@ const DashboardSidebar = ({ session, appsList }: Props) => {
       </nav>
 
       {/* USER CARD */}
-      <UserCard user={session!.user} />
+      {/* TODO :: implement this with different logic -> update user data on backend */}
+      <UserCard user={clientSession?.user || session!.user} />
     </aside>
   );
 };

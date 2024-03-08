@@ -75,7 +75,10 @@ export function formatNumber(number: number) {
 }
 
 export function isAdmin(role: Role) {
-  if (role.toLowerCase() === Role.Admin || role.toLowerCase() === Role.Owner) {
+  if (
+    role?.toLowerCase() === Role.Admin ||
+    role?.toLowerCase() === Role.Owner
+  ) {
     return true;
   }
   return false;

@@ -7,12 +7,14 @@ import Spinner from "@/components/global/Spinner";
 import { Separator } from "@/components/ui/separator";
 import { api } from "@/services/api";
 import { UserCog } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type Props = {};
 
 const ProfilePage = (props: Props) => {
+
   const [fetchingUserDetails, setFetchingUserDetails] =
     useState<boolean>(false);
   const [userDetails, setUserDetails] = useState<any>();
@@ -62,7 +64,7 @@ const ProfilePage = (props: Props) => {
                   information.
                 </p>
               </div>
-              <UpdateMyDetailsForm user={userDetails} />
+              <UpdateMyDetailsForm user={userDetails}  />
             </div>
           </section>
           <section className="mt-6">
