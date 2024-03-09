@@ -193,10 +193,11 @@ const Home = async () => {
         </MaxWidthWrapper>
       </CardSpotlight>
 
-      {/* TODO: ROADMAP SECTION */}
+      {/* TODO :: ROADMAP SECTION */}
 
       {/* PRICING SECTION */}
-      <MaxWidthWrapper className="w-full mt-20" id="pricing">
+      <section id="pricing" />
+      <MaxWidthWrapper className="w-full mt-20">
         <div>
           <div className="text-4xl font-semibold leading-tight text-center">
             <p className="bg-gradient-to-b from-purple-500 to-pink-500 text-transparent bg-clip-text">

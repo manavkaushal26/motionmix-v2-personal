@@ -47,6 +47,20 @@ const DashboardSidebar = ({ session, appsList }: Props) => {
         </Link>
       </div>
       <nav className="flex flex-1 flex-col">
+        <ul className="text-sm space-y-1">
+          <SidebarItem
+            item={{
+              label: "Dashboard",
+              href: "/dashboard",
+              icon: LayoutTemplate,
+            }}
+            lastSegment={lastSegment}
+          />
+        </ul>
+        <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
+          <p>Apps</p>
+        </div>
+        <Separator className="mt-2 mb-3" />
         <AppsDropdown
           appsList={appsList.map((app) => {
             return { label: app.name, value: app._id };
@@ -60,37 +74,18 @@ const DashboardSidebar = ({ session, appsList }: Props) => {
             No apps found.
           </p>
         ) : null}
-        {!selectedApp ? (
-          <ul className="mt-2 text-sm space-y-1">
-            <SidebarItem
-              item={{
-                label: "Dashboard",
-                href: "/dashboard",
-                icon: LayoutTemplate,
-              }}
-              lastSegment={lastSegment}
-            />
+        {selectedApp ? (
+          <ul className="text-sm space-y-1 mt-2">
+            {sidebarAppsNavigationData?.map((item) => (
+              <SidebarItem
+                key={item.label}
+                item={item}
+                lastSegment={lastSegment}
+                appId={selectedApp}
+              />
+            ))}
           </ul>
         ) : null}
-        {selectedApp ? (
-          <>
-            <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
-              <p>App Options</p>
-            </div>
-            <Separator className="my-2" />
-            <ul className="text-sm space-y-1">
-              {sidebarAppsNavigationData?.map((item) => (
-                <SidebarItem
-                  key={item.label}
-                  item={item}
-                  lastSegment={lastSegment}
-                  appId={selectedApp}
-                />
-              ))}
-            </ul>
-          </>
-        ) : null}
-
         <div className="mt-5 tracking-wider font-semibold text-sm text-muted-foreground/30">
           <p>SDK</p>
         </div>
