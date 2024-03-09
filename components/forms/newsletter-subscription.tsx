@@ -7,13 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
 type Props = {};
@@ -69,11 +63,14 @@ const NewsletterSubscriptionForm = (props: Props) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" variant="secondary" disabled={isLoading}>
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={isLoading || !form.getValues("email")}
+          >
             {isLoading ? <Spinner /> : "Subscribe"}
           </Button>
         </form>
