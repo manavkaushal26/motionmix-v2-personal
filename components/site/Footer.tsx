@@ -1,7 +1,6 @@
 import { Facebook, Github, Instagram, Twitter } from "lucide-react";
+import NewsletterSubscriptionForm from "../forms/newsletter-subscription";
 import MaxWidthWrapper from "../global/MaxWidthWrapper";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 
 type Props = {};
 
@@ -48,21 +47,7 @@ const Footer = (props: Props) => {
                 weekly.
               </p>
             </div>
-            <form className="mt-4 sm:flex sm:max-w-md lg:mt-0">
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <Input
-                type="email"
-                name="email-address"
-                id="email-address"
-                autoComplete="email"
-                placeholder="Enter your email"
-              />
-              <div className="mt-3 rounded-md sm:ml-3 sm:mt-0 sm:flex-shrink-0">
-                <Button variant="secondary">Subscribe</Button>
-              </div>
-            </form>
+            <NewsletterSubscriptionForm />
           </div>
           <div className="mt-8 w-full text-center text-5xl font-semibold">
             JOIN OUR COMMUNITY
@@ -81,7 +66,8 @@ const Footer = (props: Props) => {
               ))}
             </div>
             <p className="mt-8 text-muted-foreground text-sm md:order-1 md:mt-0">
-              &copy; 2024 Joyverse Innovation Labs Inc. All rights reserved.
+              &copy; {new Date().getFullYear()} Joyverse Innovation Labs Inc.
+              All rights reserved.
             </p>
           </div>
         </div>

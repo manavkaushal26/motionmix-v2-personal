@@ -91,7 +91,7 @@ const ForgotPasswordForm = (props: Props) => {
             disabled={isLoading}
           >
             {isLoading ? <Spinner /> : null}
-            <span className="ml-2">Request Link</span>
+            <span className={`${isLoading ? "ml-2" : ""}`}>Request Link</span>
           </Button>
         </div>
       </form>
