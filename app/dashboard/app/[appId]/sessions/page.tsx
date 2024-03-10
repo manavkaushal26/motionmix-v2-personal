@@ -84,9 +84,11 @@ const SessionsPage = async ({ params }: Props) => {
               Sessions under <span className="text-motionmix">{app.name}</span>
             </>
           }
-          description={`${sessions?.length || 0} sessions`}
+          description={`${sessions?.length || 0} session${
+            sessions?.length !== 1 ? "s" : ""
+          }`}
         />
-        <SessionsFilters />
+        {sessions?.length !== 0 ? <SessionsFilters /> : null}
       </section>
       <Separator className="my-4" />
       <section className="mt-5">

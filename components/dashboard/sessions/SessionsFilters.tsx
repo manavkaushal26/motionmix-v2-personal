@@ -16,8 +16,8 @@ type Props = {};
 export type Sort = "createdAt" | "-createdAt";
 
 const sortOptions = [
-  { label: "Date, new to old", value: "-createdAt" },
-  { label: "Date, old to new", value: "createdAt" },
+  { label: "Date, latest first", value: "-createdAt" },
+  { label: "Date, oldest first", value: "createdAt" },
 ];
 
 const SessionsFilters = (props: Props) => {
