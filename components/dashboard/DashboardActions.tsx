@@ -3,26 +3,36 @@
 import CardSpotlight from "@/components/global/CardSpotlight";
 import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { isAdmin } from "@/lib/utils";
 import { Download, MoveRight, SquareUser, Wand2 } from "lucide-react";
+import { Session } from "next-auth";
 import Link from "next/link";
+import { toast } from "sonner";
 import CreateAppForm from "../forms/create-app-form";
 import CustomModal from "../global/CustomModal";
 import { useModal } from "../providers/ModalProvider";
 
-type Props = {};
+type Props = { session: Session };
 
-const DashboardActions = (props: Props) => {
+const DashboardActions = ({ session }: Props) => {
   const { setOpen } = useModal();
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
       <div
         onClick={() => {
-          setOpen(
-            <CustomModal title="Create a new app">
-              <CreateAppForm />
-            </CustomModal>
-          );
+          if (isAdmin(session?.user?.role)) {
+            setOpen(
+              <CustomModal title="Create a new app">
+                <CreateAppForm />
+              </CustomModal>
+            );
+          } else {
+            toast.error("App creation restricted!", {
+              description:
+                "Please contact organization owner or admin to create an app.",
+            });
+          }
         }}
       >
         <CardSpotlight className="group cursor-pointer">

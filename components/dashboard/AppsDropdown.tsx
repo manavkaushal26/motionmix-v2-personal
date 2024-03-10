@@ -13,11 +13,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, isAdmin } from "@/lib/utils";
 import { Check, ChevronsUpDown, Wand2 } from "lucide-react";
 import { Session } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { toast } from "sonner";
 import CreateAppForm from "../forms/create-app-form";
 import CustomModal from "../global/CustomModal";
 import { useModal } from "../providers/ModalProvider";
@@ -76,11 +77,19 @@ const AppsDropdown = ({
             <CommandGroup>
               <CommandItem
                 onSelect={() => {
-                  setCreateAppModalOpen(
-                    <CustomModal title="Create a new app">
-                      <CreateAppForm />
-                    </CustomModal>
-                  );
+                  if (isAdmin(session?.user?.role)) {
+                    setCreateAppModalOpen(
+                      <CustomModal title="Create a new app">
+                        <CreateAppForm />
+                      </CustomModal>
+                    );
+                  } else {
+                    setOpen(false);
+                    toast.error("App creation restricted!", {
+                      description:
+                        "Please contact organization owner or admin to create an app.",
+                    });
+                  }
                 }}
               >
                 <Wand2 className="mr-2 h-4 w-4" />
