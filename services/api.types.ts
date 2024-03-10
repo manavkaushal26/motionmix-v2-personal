@@ -16,7 +16,9 @@ export type getAllAppsResponse =
 export type SingleAppResponse =
   | GeneralApiProblem
   | { kind: "ok"; data: AppMeta };
-export type CreateAppResponse = SuccessBase | GeneralApiProblem;
+export type CreateAppResponse =
+  | GeneralApiProblem
+  | { kind: "ok"; data: AppMeta };
 
 // SESSIONS
 export type AllSessionsResponse =

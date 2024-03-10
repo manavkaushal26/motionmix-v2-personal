@@ -5,6 +5,7 @@ import { defaultSEO } from "@/lib/globalConfig";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ModalProvider from "@/components/providers/ModalProvider";
 
 const font = Inter({
   subsets: ["latin"],
@@ -30,10 +31,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <GlobalProvider>
-            <main>{children}</main>
-            <Toaster />
-          </GlobalProvider>
+          <ModalProvider>
+            <GlobalProvider>
+              <main>{children}</main>
+              <Toaster />
+            </GlobalProvider>
+          </ModalProvider>
         </ThemeProvider>
       </body>
     </html>

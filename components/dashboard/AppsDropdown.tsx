@@ -13,12 +13,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn, isAdmin } from "@/lib/utils";
-import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown, Wand2 } from "lucide-react";
 import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
-import { toast } from "sonner";
+import { useParams, useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import CreateAppForm from "../forms/create-app-form";
+import CustomModal from "../global/CustomModal";
+import { useModal } from "../providers/ModalProvider";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -35,8 +37,16 @@ const AppsDropdown = ({
   session,
 }: Props) => {
   const router = useRouter();
+  const { appId = "" } = useParams();
 
   const [open, setOpen] = useState(false);
+  const { setOpen: setCreateAppModalOpen } = useModal();
+
+  useEffect(() => {
+    if (appId) {
+      setSelectedApp(appId as string);
+    }
+  }, [appId]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -65,23 +75,16 @@ const AppsDropdown = ({
             <CommandEmpty>No app found.</CommandEmpty>
             <CommandGroup>
               <CommandItem
-                value={""}
-                onSelect={(currentValue) => {
-                  if (isAdmin(session?.user?.role)) {
-                    toast.success("App created");
-                  } else {
-                    toast.error("App creation privileges are restricted.", {
-                      description:
-                        "Kindly reach out to an admin or owner to create an app.",
-                      duration: 6000,
-                    });
-                  }
-                  setOpen(false);
+                onSelect={() => {
+                  setCreateAppModalOpen(
+                    <CustomModal title="Create a new app">
+                      <CreateAppForm />
+                    </CustomModal>
+                  );
                 }}
-                className="cursor-pointer hover:bg-muted"
               >
-                <Plus size={16} />
-                <span className="ml-2">Create an App</span>
+                <Wand2 className="mr-2 h-4 w-4" />
+                <span>Create an app</span>
               </CommandItem>
             </CommandGroup>
             <CommandGroup className="no-scrollbar">

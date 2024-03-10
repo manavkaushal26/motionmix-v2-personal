@@ -44,6 +44,14 @@ export class Api {
     }
     return { kind: "ok", data: res?.data as AppMeta };
   }
+  async createApp(name: string): Promise<Types.CreateAppResponse> {
+    const res = await this.apisauce.post("v1/app", { name });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res?.data as any };
+  }
   // APPS END
 
   // SESSIONS START

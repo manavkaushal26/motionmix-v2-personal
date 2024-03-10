@@ -2,7 +2,7 @@
 
 import { generateRandomPassword } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Wand2 } from "lucide-react";
+import { PenLine } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -108,7 +108,7 @@ const ChangePasswordForm = (props: Props) => {
                           );
                         }}
                       >
-                        <Wand2 size={16} aria-hidden="true" />
+                        <PenLine size={16} aria-hidden="true" />
                       </Button>
                     </div>
                   </div>
