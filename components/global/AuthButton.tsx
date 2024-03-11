@@ -16,7 +16,11 @@ const AuthButton = ({ authType, ...props }: Props) => {
 
   return authType === "signIn" ? (
     <Link
-      href={`/signin?callbackUrl=${pathname === "/" ? "/dashboard" : pathname}`}
+      href={`/signin?callbackUrl=${
+        pathname === "/" || pathname === "/signup" || pathname === "/signin"
+          ? "/dashboard"
+          : pathname
+      }`}
       className={cn(buttonVariants({ variant, size }), className)}
     >
       Sign In
