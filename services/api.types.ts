@@ -33,3 +33,6 @@ export type ForgetPasswordRes = SuccessBase | GeneralApiProblem;
 export type fetchOrganizationTeamRes =
   | { kind: "ok"; data: { users: Array<TeamMember> } }
   | GeneralApiProblem;
+export type InviteTeamMemberRes =
+  | { kind: "ok"; data: { message: string } }
+  | GeneralApiProblem;

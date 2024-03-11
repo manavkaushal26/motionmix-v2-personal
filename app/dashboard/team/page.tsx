@@ -1,10 +1,13 @@
 "use client";
 
 import DeactivateUserForm from "@/components/forms/deactivate-user";
+import InviteTeamMemberForm from "@/components/forms/invite-team-member-form";
 import UpdateTeamMemberForm from "@/components/forms/update-team-member";
+import CustomModal from "@/components/global/CustomModal";
 import { DataTable } from "@/components/global/DataTable";
 import FadeUp from "@/components/global/FadeUp";
 import UserAvatar from "@/components/global/UserAvatar";
+import { useModal } from "@/components/providers/ModalProvider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -34,6 +37,7 @@ import {
   LucideIcon,
   MoreHorizontal,
   SquarePen,
+  UserPlus,
   UserRoundMinus,
   UserRoundPlus,
   XCircle,
@@ -76,6 +80,8 @@ const TeamsPage = (props: Props) => {
   }>({ users: [] });
   const [activatingUser, setActivatingUser] = useState<boolean>(false);
 
+  const { setOpen } = useModal();
+
   const fetchTeamMembers = useCallback(async () => {
     setFetchingTeamMembers(true);
     try {
@@ -99,10 +105,10 @@ const TeamsPage = (props: Props) => {
     try {
       const res = await api.activateUser(memberId);
       if (res.kind === "ok") {
-        toast.success(res.data.message || "Success");
+        toast.success(res?.data?.message || res?.message || "Success");
         await fetchTeamMembers();
       } else {
-        throw new Error(res.data.message || "Failed");
+        throw new Error(res?.data?.message || res?.message || "Failed");
       }
     } catch (error: any) {
       console.error(`Error activating user:`, error);
@@ -307,7 +313,17 @@ const TeamsPage = (props: Props) => {
         <div>
           <h1 className="text-2xl font-semibold">My Team</h1>
         </div>
-        <Button>
+        <Button
+          size="sm"
+          onClick={() =>
+            setOpen(
+              <CustomModal title="Add a team member">
+                <InviteTeamMemberForm fetchTeamMembers={fetchTeamMembers} />
+              </CustomModal>
+            )
+          }
+        >
+          <UserPlus size={16} className="mr-2" />
           <span>Invite Member</span>
         </Button>
       </section>

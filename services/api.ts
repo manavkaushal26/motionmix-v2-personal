@@ -159,7 +159,6 @@ export class Api {
     }
     return { kind: "ok" };
   }
-
   async activateUser(id: string): Promise<any> {
     const res = await this.apisauce.put("/v1/user/active/" + id);
     if (!res.ok) {
@@ -188,6 +187,14 @@ export class Api {
     }
     const rawRes: any = res?.data;
     return { kind: "ok", data: rawRes };
+  }
+  async inviteTeamMember(data: any): Promise<Types.InviteTeamMemberRes> {
+    const res = await this.apisauce.post("/v1/user", { ...data });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok", data: res?.data as any };
   }
   async getUserDetails(token?: string): Promise<any> {
     const res = await this.apisauce.get("/v1/user/me", undefined, {
