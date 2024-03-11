@@ -47,6 +47,7 @@ const AppsDropdown = ({
     if (appId) {
       setSelectedApp(appId as string);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId]);
 
   return (
