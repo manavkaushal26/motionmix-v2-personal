@@ -21,7 +21,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     );
   }
 
-  // token?.user?.role !== "admin"
   if (pathname === "/signin") {
     return NextResponse.redirect(new URL("/", request.url));
   }
