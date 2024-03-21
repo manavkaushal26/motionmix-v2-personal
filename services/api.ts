@@ -45,13 +45,39 @@ export class Api {
     return { kind: "ok", data: res?.data as AppMeta };
   }
   async createApp(name: string): Promise<Types.CreateAppResponse> {
-    const res = await this.apisauce.post("v1/app", { name });
+    const res = await this.apisauce.post("/v1/app", { name });
     if (!res.ok) {
       const problem = getGeneralApiProblem(res);
       if (problem) return problem;
     }
     return { kind: "ok", data: res?.data as any };
   }
+  // async deleteApp(
+  //   appId: string,
+  //   deleteVal: boolean
+  // ): Promise<Types.DeleteAppResponse> {
+  //   const res = await this.apisauce.delete(
+  //     `/v1/app/${appId}`,
+  //     {
+  //       isDelete: deleteVal,
+  //     },
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   // const res = await this.apisauce.any({
+  //   //   method: "PUT",
+  //   //   url: `/v1/app/${appId}`,
+  //   //   params: { isDelete: deleteVal },
+  //   // });
+  //   if (!res.ok) {
+  //     const problem = getGeneralApiProblem(res);
+  //     if (problem) return problem;
+  //   }
+  //   return { kind: "ok", data: res?.data as any };
+  // }
   // APPS END
 
   // SESSIONS START

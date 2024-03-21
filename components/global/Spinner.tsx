@@ -6,7 +6,7 @@ const Sizes = {
   lg: "w-7 h-7",
 };
 
-const SVGLoader = ({
+const Spinner = ({
   size = "md",
   sx = "",
   center = true,
@@ -51,4 +51,4 @@ const SVGLoader = ({
   );
 };
 
-export default SVGLoader;
+export default Spinner;

@@ -11,6 +11,7 @@ export interface AppMeta extends MongoBase {
   name: string;
   organization: string;
   keys: Array<string>;
+  deleteInProgress?: string;
 }
 
 export interface SessionMeta extends MongoBase {

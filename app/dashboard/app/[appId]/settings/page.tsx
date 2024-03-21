@@ -1,17 +1,15 @@
+import DeleteAppButton from "@/components/dashboard/DeleteAppButton";
 import AppKeySecret from "@/components/global/AppKeySecret";
 import CardSpotlight from "@/components/global/CardSpotlight";
 import FadeUp from "@/components/global/FadeUp";
-import { buttonVariants } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
 import { AppMeta } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { Settings, Trash } from "lucide-react";
-import Link from "next/link";
+import { Settings } from "lucide-react";
 
 type Props = { params: { appId: string } };
 
@@ -37,6 +35,7 @@ const AppSettingsPage = async ({ params }: Props) => {
   const authSession = await auth();
 
   const app: AppMeta = await fetchAppDetails(appId, authSession?.user?.token);
+  const deleteAppRequested = app?.deleteInProgress ? true : false;
 
   if (!app) {
     return null;
@@ -51,35 +50,6 @@ const AppSettingsPage = async ({ params }: Props) => {
         </h1>
       </div>
       <Separator className="my-4" />
-      {/* <section className="mt-6">
-        <Tabs defaultValue="account" className="w-full">
-          <TabsList className="p-0 rounded-none">
-            <TabsTrigger
-              className={cn(
-                buttonVariants({ variant: "ghost" }),
-                "rounded-none"
-              )}
-              value="account"
-            >
-              General
-            </TabsTrigger>
-            <TabsTrigger
-              className={cn(
-                buttonVariants({ variant: "ghost" }),
-                "rounded-none"
-              )}
-              value="password"
-            >
-              SDK
-            </TabsTrigger>
-          </TabsList>
-          <Separator />
-          <TabsContent value="account">
-            <GeneralAppForm app={app} />
-          </TabsContent>
-          <TabsContent value="password">SDK here</TabsContent>
-        </Tabs>
-      </section> */}
       {/* Basic Information */}
       <section className="mt-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
@@ -146,22 +116,24 @@ const AppSettingsPage = async ({ params }: Props) => {
           <CardContent className="p-6">
             <div className="w-full flex items-center gap-x-4 justify-between">
               <div>
-                <p className="block font-medium leading-6">Delete App?</p>
+                <p className="block font-medium leading-6">
+                  {deleteAppRequested ? "Revoke App" : "Delete App"}
+                </p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Deleting the app will permanently remove all associated data.
+                  {deleteAppRequested
+                    ? "Your request for deleting this app is initiated. You can cancel the deletion process and revoke the app within 24 hours."
+                    : "Deleting the app will permanently remove all associated data."}
                 </p>
               </div>
               <div>
-                <Link
-                  href="/"
-                  className={cn(
-                    buttonVariants({ variant: "destructive" }),
-                    "gap-x-2"
-                  )}
-                >
-                  <Trash size={16} />
-                  <span>Delete</span>
-                </Link>
+                <DeleteAppButton
+                  appId={app._id}
+                  deleteAppRequested={deleteAppRequested}
+                  countdownFrom={
+                    app?.deleteInProgress ? app.deleteInProgress : ""
+                  }
+                  userToken={authSession?.user?.token}
+                />
               </div>
             </div>
           </CardContent>

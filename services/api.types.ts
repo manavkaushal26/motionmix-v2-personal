@@ -19,6 +19,9 @@ export type SingleAppResponse =
 export type CreateAppResponse =
   | GeneralApiProblem
   | { kind: "ok"; data: AppMeta };
+export type DeleteAppResponse =
+  | GeneralApiProblem
+  | { kind: "ok"; data: AppMeta };
 
 // SESSIONS
 export type AllSessionsResponse =
