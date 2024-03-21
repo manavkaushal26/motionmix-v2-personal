@@ -108,7 +108,7 @@ const SessionsPage = async ({ params }: Props) => {
               <Link
                 href="https://docs.motionmix.ai/sdk-documentation/sdk-guide/importing-the-sdk"
                 target="_blank"
-                className="block cursor-pointer hover:text-foreground text-muted-foreground hover:underline hover:underline-offset-4 mt-5 group"
+                className="block cursor-pointer hover:text-foreground text-muted-foreground hover:underline hover:underline-offset-4 mt-5 group w-fit duration-200"
               >
                 Learn how to integrate our SDK effortlessly{" "}
                 <MoveRight

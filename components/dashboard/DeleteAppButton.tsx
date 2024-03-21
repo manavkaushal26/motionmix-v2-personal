@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { deleteApp, revokeApp } from "@/lib/queries";
 import { formatSeconds } from "@/lib/utils";
-import { RotateCcw, Trash } from "lucide-react";
+import { Clock, RotateCcw, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -41,7 +41,7 @@ const DeleteAppButton = ({
     if (!countdownFrom) return;
 
     const endDate = new Date(countdownFrom);
-    endDate.setHours(endDate.getHours() + 24);
+    endDate.setHours(endDate.getHours() + 24); // Add 24 hours
     const now = new Date();
     const difference = endDate.getTime() - now.getTime();
     const secondsLeft = Math.floor(difference / 1000);
@@ -57,6 +57,14 @@ const DeleteAppButton = ({
     }, 1000);
     return () => clearInterval(interval);
   }, [countdownFrom]);
+
+  // TODO: if settings screen and timer ends, redirect user to /dashboard and update appsList
+  // useEffect(() => {
+  //   if (timeLeft === 0) {
+  //     router.push("/dashboard");
+  //     fetchAllApps(userToken);
+  //   }
+  // }, [timeLeft]);
 
   const requestAppAction = async (action: string) => {
     setDeleteAppRequesting(true);
@@ -100,7 +108,8 @@ const DeleteAppButton = ({
           )}
         </Button>
         {!deleteAppRequesting && timeLeft !== null && (
-          <div className="text-xs text-center text-muted-foreground">
+          <div className="text-xs text-muted-foreground flex items-center justify-center space-x-1">
+            <Clock size={10} />
             <span>{formatSeconds(timeLeft, "h:m:s")}</span>
           </div>
         )}

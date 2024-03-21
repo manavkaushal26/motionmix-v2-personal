@@ -121,8 +121,8 @@ const AppSettingsPage = async ({ params }: Props) => {
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
                   {deleteAppRequested
-                    ? "Your request for deleting this app is initiated. You can cancel the deletion process and revoke the app within 24 hours."
-                    : "Deleting the app will permanently remove all associated data."}
+                    ? "Your request to delete this app has been initiated. You have 24 hours to cancel the deletion process and revoke the app."
+                    : "Deleting the app will remove all associated data."}
                 </p>
               </div>
               <div>
