@@ -367,7 +367,7 @@ const ErrorsPage = ({ params, searchParams }: Props) => {
                   pointBorderColor={{ from: "serieColor" }}
                   pointLabelYOffset={-12}
                   useMesh={true}
-                  enableArea={true}
+                  enableArea={false}
                   enableGridX={false}
                   tooltip={(tData: any) => {
                     const point = tData?.point;
