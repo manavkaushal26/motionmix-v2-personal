@@ -19,6 +19,7 @@ const DashboardLayout = async ({ children }: Props) => {
 
   return (
     <>
+      {/* <div className="-z-[1] fixed inset-0 bg-dashboardBg bg-cover bg-no-repeat opacity-20" /> */}
       <div>
         {/* MOBILE SIDEBAR */}
 

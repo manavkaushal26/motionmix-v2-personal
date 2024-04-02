@@ -42,6 +42,7 @@ import {
   UserRoundPlus,
   XCircle,
 } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -79,6 +80,8 @@ const TeamsPage = (props: Props) => {
     users: Array<TeamMember>;
   }>({ users: [] });
   const [activatingUser, setActivatingUser] = useState<boolean>(false);
+
+  const ALLOWED_TEAM_MEMBERS = 3;
 
   const { setOpen } = useModal();
 
@@ -315,13 +318,31 @@ const TeamsPage = (props: Props) => {
         </div>
         <Button
           size="sm"
-          onClick={() =>
-            setOpen(
-              <CustomModal title="Add a team member">
-                <InviteTeamMemberForm fetchTeamMembers={fetchTeamMembers} />
-              </CustomModal>
-            )
-          }
+          onClick={() => {
+            if (teamMembersData?.users?.length < ALLOWED_TEAM_MEMBERS) {
+              setOpen(
+                <CustomModal title="Add a team member">
+                  <InviteTeamMemberForm fetchTeamMembers={fetchTeamMembers} />
+                </CustomModal>
+              );
+            } else {
+              toast.error("Unable to invite another team member!", {
+                description: (
+                  <>
+                    The free plan allows for creating a team of up to{" "}
+                    {ALLOWED_TEAM_MEMBERS} members. Upgrade to the{" "}
+                    <Link
+                      href="/#pricing"
+                      className="text-foreground hover:underline"
+                    >
+                      PRO
+                    </Link>{" "}
+                    plan to add unlimited members to your team.
+                  </>
+                ),
+              });
+            }
+          }}
         >
           <UserPlus size={16} className="mr-2" />
           <span>Invite Member</span>

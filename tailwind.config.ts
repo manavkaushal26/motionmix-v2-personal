@@ -21,6 +21,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        dashboardBg: "url('/assets/images/background.jpg')",
+      },
       colors: {
         "custom-zinc": "#161616",
         border: "hsl(var(--border))",
