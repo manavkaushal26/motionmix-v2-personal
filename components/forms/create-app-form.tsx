@@ -44,7 +44,7 @@ const CreateAppForm = (props: Props) => {
       const res = await api.createApp(name);
       if (res.kind !== "ok") throw new Error(res?.message);
       setClose();
-      toast.success("New app created!", { description: "Redirecting..." });
+      toast.success("New app created!");
       router.push(`/dashboard/app/${res?.data?._id}/sessions`);
       router.refresh();
     } catch (error: any) {

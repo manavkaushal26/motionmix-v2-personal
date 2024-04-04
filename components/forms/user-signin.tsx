@@ -52,7 +52,7 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
           callbackUrl: callbackUrl,
         });
         if (response?.ok) {
-          toast.success("Successful login confirmed. Welcome back!", {
+          toast.success("Successful login confirmed!", {
             description: "Redirecting...",
           });
           router.push(response.url as string);

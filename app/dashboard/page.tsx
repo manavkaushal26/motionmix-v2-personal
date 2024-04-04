@@ -11,7 +11,7 @@ const Dashboard = async (props: Props) => {
   return (
     <FadeUp>
       <h1 className="text-2xl capitalize">
-        Hey {session.user.name.split(" ")[0]}, Welcome back!
+        Hey {session.user.name.split(" ")[0]}, Welcome to your dashboard!
       </h1>
       <p className="text-muted-foreground">
         You are now logged into your dashboard.

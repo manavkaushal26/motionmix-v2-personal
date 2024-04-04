@@ -9,10 +9,12 @@ import {
 import Image from "next/image";
 
 type Props = {
-  searchParams: { callbackUrl?: string };
+  searchParams: { callbackUrl?: string; firstSignIn?: string };
 };
 
 const SignInPage = ({ searchParams }: Props) => {
+  const { firstSignIn = "" } = searchParams;
+
   return (
     <CardSpotlightBorder className="bg-background w-full shadow-lg !rounded-xl">
       <CardHeader className="text-center">
@@ -24,7 +26,9 @@ const SignInPage = ({ searchParams }: Props) => {
             MOTION<span className="text-bold">MIX</span>
           </p>
         </div>
-        <CardTitle>Welcome back!</CardTitle>
+        <CardTitle>
+          {firstSignIn ? "Welcome to MotionMix!" : "Welcome back!"}
+        </CardTitle>
         <CardDescription>Sign in to your account to continue</CardDescription>
       </CardHeader>
       <CardContent className="mt-2">

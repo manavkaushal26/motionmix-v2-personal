@@ -22,7 +22,7 @@ const SignUpPage = ({ searchParams }: Props) => {
             MOTION<span className="text-bold">MIX</span>
           </p>
         </div>
-        <CardTitle>Create your free account</CardTitle>
+        <CardTitle>Create your account</CardTitle>
         <CardDescription>Let&apos;s get started</CardDescription>
       </CardHeader>
       <CardContent className="mt-2">

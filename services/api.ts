@@ -151,6 +151,20 @@ export class Api {
   // ERRORS END
 
   // AUTH START
+  async signupUser(data: any): Promise<any> {
+    const res = await this.apisauce.post("/v1/auth/signup", {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      organizationName: data.organizationName,
+      orgRole: data.orgRole,
+    });
+    if (!res.ok) {
+      const problem = getGeneralApiProblem(res);
+      if (problem) return problem;
+    }
+    return { kind: "ok" };
+  }
   async loginUser(email: string, password: string): Promise<any> {
     const res = await this.apisauce.post("/v1/auth/login", {
       email,

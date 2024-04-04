@@ -8,11 +8,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { OrganizationRoles } from "@/lib/enums";
+import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Building2, Key, Mail, User } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { Building2, Mail, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -57,6 +57,7 @@ const FormSchema = z.object({
 
 const UserSignUpForm = ({ callbackUrl }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -73,24 +74,32 @@ const UserSignUpForm = ({ callbackUrl }: Props) => {
 
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
-      const { email, password } = values;
-      if (email && password) {
-        const response = await signIn<"credentials">("user-login", {
-          email,
-          password,
-          redirect: false,
-          callbackUrl: "/",
+      const userDataToSend = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        organizationName: values.organizationName,
+        orgRole: values.orgRole,
+      };
+      const response: any = await api.signupUser(userDataToSend);
+
+      if (response.kind === "ok") {
+        toast.success("User signup complete!", {
+          description: "Redirecting you to sign in page...",
         });
-        if (response?.ok) {
-          toast.success("Successful login confirmed. Welcome back.");
-          router.push(response.url as string);
+        setTimeout(() => {
+          router.push(
+            `/signin?callbackUrl=${
+              searchParams.get("callbackUrl") || "/dashboard"
+            }&firstSignIn=true`
+          );
           router.refresh();
-        } else {
-          toast.error(response?.error || "Login failed. Please try again.");
-        }
+        }, 1000);
+      } else {
+        toast.error(response?.message || "Sign in failed. Please try again.");
       }
     } catch (error) {
-      console.error("An error occurred during login:", error);
+      console.error("An error occurred during sign in:", error);
       // toast.error("Unable to verify login details. Please try again later.");
     }
   };
