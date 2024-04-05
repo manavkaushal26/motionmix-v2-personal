@@ -1,6 +1,7 @@
 "use client";
 
 import { generateRandomPassword } from "@/lib/utils";
+import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PenLine } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -22,10 +23,8 @@ import { Separator } from "../ui/separator";
 type Props = {};
 
 const FormSchema = z.object({
-  currentPassword: z
-    .string()
-    .min(1, { message: "Current Password is required" }),
-  newPassword: z
+  oldPass: z.string().min(1, { message: "Current Password is required" }),
+  newPass: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" }),
 });
@@ -35,13 +34,30 @@ const ChangePasswordForm = (props: Props) => {
     mode: "onChange",
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      currentPassword: "",
-      newPassword: "",
+      oldPass: "",
+      newPass: "",
     },
   });
   const isLoading = form.formState.isSubmitting;
 
-  const handleSubmit = async (values: z.infer<typeof FormSchema>) => {};
+  const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const updatingPass = toast.loading("Updating password...");
+    try {
+      const res = await api.updatePassword(values);
+      toast.dismiss(updatingPass);
+      if (res.kind === "ok") {
+        toast.success(res?.data?.message || "Success! Password changed.");
+        form.reset();
+      } else {
+        toast.error(
+          res?.data?.message || "Error! Password could not be changed."
+        );
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.message || "Error! Something went wrong.");
+    }
+  };
 
   return (
     <CardSpotlight cursorEffect={false} className="md:col-span-2">
@@ -54,7 +70,7 @@ const ChangePasswordForm = (props: Props) => {
           <FormField
             disabled={isLoading}
             control={form.control}
-            name="currentPassword"
+            name="oldPass"
             render={({ field }) => (
               <FormItem className="col-span-3">
                 {/* <FormLabel className="text-muted-foreground">
@@ -74,7 +90,7 @@ const ChangePasswordForm = (props: Props) => {
           <FormField
             disabled={isLoading}
             control={form.control}
-            name="newPassword"
+            name="newPass"
             render={({ field }) => (
               <FormItem className="col-span-3">
                 {/* <FormLabel className="text-muted-foreground">
@@ -98,7 +114,7 @@ const ChangePasswordForm = (props: Props) => {
                         className="absolute top-1/2 right-[15px] -translate-y-1/2 text-muted-foreground hover:text-foreground rounded-none"
                         onClick={() => {
                           const pass = generateRandomPassword();
-                          form.setValue("newPassword", pass);
+                          form.setValue("newPass", pass);
                           toast.success(
                             "Generated a random password for you!",
                             {
@@ -128,8 +144,8 @@ const ChangePasswordForm = (props: Props) => {
               variant="secondary"
               disabled={
                 isLoading ||
-                !form.getValues("currentPassword") ||
-                !form.getValues("newPassword")
+                !form.getValues("oldPass") ||
+                !form.getValues("newPass")
               }
             >
               Update
