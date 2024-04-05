@@ -18,7 +18,7 @@ const sdkVersions = ["1.2.1", "1.0.9", "1.0.0"];
 
 const DownloadSDKToolbar = (props: Props) => {
   const [percentage, setPercentage] = useState(0);
-  const [version, setVersion] = useState(sdkVersions[0]);
+  const [version, setVersion] = useState(sdkVersions[1]);
   const fileName = `MotionMix_v${version}.unitypackage`;
 
   const downloadSdk = async () => {
@@ -73,7 +73,11 @@ const DownloadSDKToolbar = (props: Props) => {
         </SelectTrigger>
         <SelectContent>
           {sdkVersions.map((option, i) => (
-            <SelectItem key={option} value={option}>
+            <SelectItem
+              key={option}
+              value={option}
+              disabled={option !== sdkVersions[1]}
+            >
               v{option}
             </SelectItem>
           ))}
