@@ -39,7 +39,7 @@ const rolesOptions: any[] = Object.keys(Role)
     value: Role[key as keyof typeof Role],
     label: Role[key as keyof typeof Role],
   }));
-  
+
 // Convert enum to organization roles object
 const orgRolesOptions: any[] = Object.keys(OrganizationRoles).map((key) => ({
   value: OrganizationRoles[key as keyof typeof OrganizationRoles],
@@ -149,7 +149,7 @@ const UpdateMyDetailsForm = ({ user }: Props) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  disabled={isLoading || !isAdmin(field.value as Role)}
+                  disabled={isLoading || !isAdmin(session?.user?.role)}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -168,7 +168,7 @@ const UpdateMyDetailsForm = ({ user }: Props) => {
                     ))}
                   </SelectContent>
                 </Select>
-                {!isAdmin(field.value as Role) ? (
+                {!isAdmin(session?.user?.role) ? (
                   <FormDescription className="text-xs flex items-center gap-x-1 text-amber-500">
                     <AlertTriangle size={12} /> Only admins or owners can update
                     profiles
