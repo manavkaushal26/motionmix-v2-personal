@@ -4,6 +4,7 @@ import { generateRandomPassword } from "@/lib/utils";
 import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PenLine } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,6 +31,7 @@ const FormSchema = z.object({
 });
 
 const ChangePasswordForm = (props: Props) => {
+  const [allChecksPassed, setAllChecksPassed] = useState<boolean>(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
     resolver: zodResolver(FormSchema),
@@ -49,13 +51,13 @@ const ChangePasswordForm = (props: Props) => {
         toast.success(res?.data?.message || "Success! Password changed.");
         form.reset();
       } else {
-        toast.error(
-          res?.data?.message || "Error! Password could not be changed."
-        );
+        throw new Error(res?.data?.message);
       }
     } catch (error: any) {
       console.error(error);
-      toast.error(error?.message || "Error! Something went wrong.");
+      toast.error("Error! Password could not be changed.", {
+        description: error?.message || "Something went wrong.",
+      });
     }
   };
 
@@ -73,9 +75,6 @@ const ChangePasswordForm = (props: Props) => {
             name="oldPass"
             render={({ field }) => (
               <FormItem className="col-span-3">
-                {/* <FormLabel className="text-muted-foreground">
-                  Enter Current Password
-                </FormLabel> */}
                 <FormControl>
                   <PasswordInput
                     type="password"
@@ -93,9 +92,6 @@ const ChangePasswordForm = (props: Props) => {
             name="newPass"
             render={({ field }) => (
               <FormItem className="col-span-3">
-                {/* <FormLabel className="text-muted-foreground">
-                  Enter New Password
-                </FormLabel> */}
                 <FormControl>
                   <div className="w-full relative">
                     <PasswordInput
@@ -116,10 +112,10 @@ const ChangePasswordForm = (props: Props) => {
                           const pass = generateRandomPassword();
                           form.setValue("newPass", pass);
                           toast.success(
-                            "Generated a random password for you!",
+                            "Generated a strong password for you!",
                             {
                               description:
-                                "To prevent loss during form submission, securely copy the generated password.",
+                                "Make sure to save it securely for future sign-ins.",
                             }
                           );
                         }}
@@ -131,19 +127,36 @@ const ChangePasswordForm = (props: Props) => {
                 </FormControl>
                 {/* <FormMessage /> */}
                 {field.value ? (
-                  <PasswordStrength password={field.value} />
+                  // <PasswordStrength password={field.value} />
+                  <PasswordStrength
+                    password={field.value}
+                    setAllChecksPassed={setAllChecksPassed}
+                  />
                 ) : null}
               </FormItem>
             )}
           />
           <Separator className="col-span-6" />
-          <div className="col-span-6 flex items-center justify-end">
+          <div className="col-span-6 flex items-center justify-end space-x-2">
+            <Button
+              size="sm"
+              variant="secondary"
+              type="button"
+              onClick={() => form.reset()}
+              disabled={
+                isLoading ||
+                (!form.getValues("oldPass") && !form.getValues("newPass"))
+              }
+            >
+              Reset
+            </Button>
             <Button
               size="sm"
               type="submit"
               variant="secondary"
               disabled={
                 isLoading ||
+                !allChecksPassed ||
                 !form.getValues("oldPass") ||
                 !form.getValues("newPass")
               }

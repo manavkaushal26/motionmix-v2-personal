@@ -1,9 +1,14 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Check, Circle } from "lucide-react";
-import { useLayoutEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-type Props = { password: string };
+type Props = {
+  password: string;
+  setAllChecksPassed?: Dispatch<SetStateAction<boolean>>;
+};
 
 const passwordStrengthColors = {
   Weak: "bg-rose-500",
@@ -12,7 +17,7 @@ const passwordStrengthColors = {
   "Very Strong": "bg-blue-500",
 };
 
-const PasswordStrength = ({ password }: Props) => {
+const PasswordStrength = ({ password, setAllChecksPassed }: Props) => {
   const [completedChecklist, setCompletedChecklist] = useState<boolean[]>([
     false,
     false,
@@ -21,7 +26,7 @@ const PasswordStrength = ({ password }: Props) => {
     false,
   ]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const updateChecklist = (password: string) => {
       const length = password.length >= 8;
       const uppercaseScore = /[A-Z]/.test(password);
@@ -80,6 +85,13 @@ const PasswordStrength = ({ password }: Props) => {
     "At least one digit",
     "At least one special character",
   ];
+
+  useEffect(() => {
+    if (setAllChecksPassed) {
+      const allChecksPassed = completedChecklist.every((check) => check);
+      setAllChecksPassed(allChecksPassed);
+    }
+  }, [completedChecklist, setAllChecksPassed]);
 
   return (
     <div className="text-right pt-2">
