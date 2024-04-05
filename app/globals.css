@@ -205,3 +205,22 @@ textarea {
     stroke-dashoffset: -163;
   }
 }
+
+/* RELEASE NOTES SECTION */
+#release-note-answers ul {
+  @apply pl-6 space-y-2 list-disc;
+}
+
+#release-note-answers h1,
+#release-note-answers h2,
+#release-note-answers h3,
+#release-note-answers h4,
+#release-note-answers h5,
+#release-note-answers h6,
+#release-note-answers p {
+  @apply mb-4;
+}
+
+.accordion-item[data-state="open"] {
+  @apply text-foreground;
+}
