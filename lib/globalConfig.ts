@@ -24,6 +24,14 @@ const imageKit = {
       ? "https://file.motionmix.club"
       : "https://file.motionmix.club",
   },
+  baseDeliveryUrlMotionmix: {
+    image: isProduction
+      ? "https://ik.imagekit.io/motionmix"
+      : "https://ik.imagekit.io/motionmix",
+    other: isProduction
+      ? "https://file.motionmix.club"
+      : "https://file.motionmix.club",
+  },
 };
 
 const GLOBAL_TRANSITION_DURATION = 0.5;

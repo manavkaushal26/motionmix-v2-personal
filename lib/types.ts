@@ -14,7 +14,7 @@ export interface AppMeta extends MongoBase {
   deleteInProgress?: string;
 }
 
-export interface SessionMeta extends MongoBase {
+export interface SessionCardMeta extends MongoBase {
   appScene: {
     _id: string;
     name: string;
