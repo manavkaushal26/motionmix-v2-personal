@@ -1,4 +1,4 @@
-import { auth } from "@/lib/authOptions";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 type Props = {

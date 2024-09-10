@@ -16,3 +16,10 @@ export enum OrganizationRoles {
   Team_MEMBER = "Team Member",
   // OTHER = "Other",
 }
+
+export enum CharType {
+  Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  Lowercase = "abcdefghijklmnopqrstuvwxyz",
+  Digit = "0123456789",
+  Special = "!@#$%^&*()_-+=<>?/{}[]|",
+}

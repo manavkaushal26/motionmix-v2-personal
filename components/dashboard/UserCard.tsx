@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { isAdmin } from "@/lib/utils";
 import {
-  ChevronsUpDown,
-  Compass,
-  CreditCard,
-  LogOut,
-  User,
-  Users,
-} from "lucide-react";
+  IconCompass,
+  IconCreditCard,
+  IconLogout,
+  IconSelector,
+  IconUser,
+  IconUsers,
+} from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ const UserCard = ({ user }: Props) => {
           className="w-full my-4 flex items-center justify-between py-8"
         >
           <div className="flex items-center text-left gap-2">
-            <Compass />
+            <IconCompass />
             <div className="flex flex-col capitalize">
               {user.name}{" "}
               <span className="text-muted-foreground capitalize max-w-[165px] pr-5 truncate">
@@ -42,7 +42,7 @@ const UserCard = ({ user }: Props) => {
             </div>
           </div>
           <div>
-            <ChevronsUpDown size={16} className="text-muted-foreground" />
+            <IconSelector size={16} className="text-muted-foreground" />
           </div>
         </Button>
       </DropdownMenuTrigger>
@@ -54,13 +54,13 @@ const UserCard = ({ user }: Props) => {
         <DropdownMenuGroup>
           <Link href="/dashboard/profile">
             <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
+              <IconUser className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
           {isAdmin(user.role) ? (
             <DropdownMenuItem disabled>
-              <CreditCard className="mr-2 h-4 w-4" />
+              <IconCreditCard className="mr-2 h-4 w-4" />
               <span>Billing</span>
             </DropdownMenuItem>
           ) : null}
@@ -71,7 +71,7 @@ const UserCard = ({ user }: Props) => {
             <DropdownMenuGroup>
               <Link href="/dashboard/team">
                 <DropdownMenuItem>
-                  <Users className="mr-2 h-4 w-4" />
+                  <IconUsers className="mr-2 h-4 w-4" />
                   <span>Team</span>
                 </DropdownMenuItem>
               </Link>
@@ -80,7 +80,7 @@ const UserCard = ({ user }: Props) => {
           </>
         ) : null}
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <IconLogout className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

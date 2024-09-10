@@ -1,16 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Role } from "./enums";
+import { CharType, Role } from "./enums";
 import { imageKit } from "./globalConfig";
-
-// ENUMS
-enum CharType {
-  Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  Lowercase = "abcdefghijklmnopqrstuvwxyz",
-  Digit = "0123456789",
-  Special = "!@#$%^&*()_-+=<>?/{}[]|",
-}
-// ENUMS
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

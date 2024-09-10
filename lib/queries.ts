@@ -37,6 +37,7 @@ export const deleteApp = async (appId: string, token: string) => {
     console.log(error);
   }
 };
+
 export const revokeApp = async (appId: string, token: string) => {
   try {
     const res = await fetch(`${config.apiBaseUrl}/v1/app/${appId}`, {

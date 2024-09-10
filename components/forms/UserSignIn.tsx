@@ -1,14 +1,13 @@
 "use client";
 
 import Spinner from "@/components/global/Spinner";
+import { signIn } from "@/lib/actions/auth-actions";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import PasswordInput from "../global/PasswordInput";
 import { Button } from "../ui/button";
@@ -20,6 +19,8 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import FormError from "./FormError";
+import { SignInSchema } from "./schemas";
 
 type Props = { callbackUrl: string };
 
@@ -29,41 +30,25 @@ const FormSchema = z.object({
 });
 
 const UserSignInForm = ({ callbackUrl }: Props) => {
-  const router = useRouter();
+  const [error, setError] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    mode: "onChange",
-    resolver: zodResolver(FormSchema),
+  const form = useForm({
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const isLoading = form.formState.isSubmitting;
 
-  const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
-    try {
-      const { email, password } = values;
-      if (email && password) {
-        const response = await signIn<"credentials">("user-login", {
-          email,
-          password,
-          redirect: false,
-          callbackUrl: callbackUrl,
-        });
-        if (response?.ok) {
-          toast.success("Successful login confirmed!", {
-            description: "Redirecting...",
-          });
-          router.push(response.url as string);
-          router.refresh();
-        } else {
-          toast.error(response?.error || "Login failed. Please try again.");
-        }
-      }
-    } catch (error) {
-      console.error("An error occurred during login:", error);
-    }
+  const handleSubmit = async (values: z.infer<typeof SignInSchema>) => {
+    setError("");
+
+    startTransition(() => {
+      signIn(values).then((data: any) => {
+        setError(data?.error);
+      });
+    });
   };
 
   return (
@@ -74,7 +59,7 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
         className="flex flex-col gap-y-4"
       >
         <FormField
-          disabled={isLoading}
+          disabled={isPending}
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -87,7 +72,7 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
           )}
         />
         <FormField
-          disabled={isLoading}
+          disabled={isPending}
           control={form.control}
           name="password"
           render={({ field }) => (
@@ -111,14 +96,16 @@ const UserSignInForm = ({ callbackUrl }: Props) => {
         >
           Forgot Password?
         </Link>
+        <FormError message={error} />
+        {/* <FormSuccess message={success} /> */}
         <Button
           size="sm"
           type="submit"
           variant="secondary"
-          disabled={isLoading}
+          disabled={isPending}
           className="mt-4"
         >
-          {isLoading ? <Spinner /> : "Sign In"}
+          {isPending ? <Spinner /> : "Sign In"}
         </Button>
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}

@@ -1,4 +1,4 @@
-import UserSignUpForm from "@/components/forms/user-signup";
+import UserSignUpForm from "@/components/forms/UserSignUp";
 import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import {
   CardContent,

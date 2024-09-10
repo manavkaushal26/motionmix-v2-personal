@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import CardSpotlight from "@/components/global/CardSpotlight";
 import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import GradientBadge from "@/components/global/GradientBadge";
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { auth } from "@/lib/authOptions";
 import { cn } from "@/lib/utils";
 import {
   BrainCircuit,

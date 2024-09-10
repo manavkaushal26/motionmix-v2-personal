@@ -19,9 +19,9 @@ import { Session } from "next-auth";
 import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
-import CreateAppForm from "../forms/create-app-form";
+import { useModal } from "../../lib/providers/ModalProvider";
+import CreateAppForm from "../forms/CreateAppForm";
 import CustomModal from "../global/CustomModal";
-import { useModal } from "../providers/ModalProvider";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -47,7 +47,7 @@ const AppsDropdown = ({
     if (appId) {
       setSelectedApp(appId as string);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appId]);
 
   return (
