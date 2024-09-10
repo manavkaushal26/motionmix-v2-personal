@@ -1,5 +1,5 @@
 import { Facebook, Github, Instagram, Twitter } from "lucide-react";
-import NewsletterSubscriptionForm from "../forms/newsletter-subscription";
+import NewsletterSubscriptionForm from "../forms/NewsletterSubscription";
 import MaxWidthWrapper from "../global/MaxWidthWrapper";
 
 type Props = {};

@@ -7,14 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { OrganizationRoles } from "@/lib/enums";
 import { api } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Building2, Mail, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import PasswordInput from "../global/PasswordInput";
 import Spinner from "../global/Spinner";
@@ -27,41 +26,19 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import FormError from "./FormError";
+import FormSuccess from "./FormSuccess";
+import { orgRolesOptions, SignUpSchema } from "./schemas";
 
 type Props = { callbackUrl: string };
 
-// Convert enum to organization roles object
-const orgRolesOptions: any[] = Object.keys(OrganizationRoles).map((key) => ({
-  value: OrganizationRoles[key as keyof typeof OrganizationRoles],
-  label: OrganizationRoles[key as keyof typeof OrganizationRoles],
-}));
-const orgRolesValuesArray = orgRolesOptions.map((option) => option.value) as [
-  string,
-  ...string[]
-];
-
-const FormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z
-    .string()
-    .min(1, { message: "Email is required" })
-    .email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-  organizationName: z
-    .string()
-    .min(1, { message: "Organization name is required" }),
-  orgRole: z.enum(orgRolesValuesArray),
-});
-
 const UserSignUpForm = ({ callbackUrl }: Props) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    mode: "onChange",
-    resolver: zodResolver(FormSchema),
+  const form = useForm({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -72,35 +49,35 @@ const UserSignUpForm = ({ callbackUrl }: Props) => {
   });
   const isLoading = form.formState.isSubmitting;
 
-  const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof SignUpSchema>) => {
+    setError("");
+    const { name, email, password, organizationName, orgRole } = values;
+
     try {
       const userDataToSend = {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        organizationName: values.organizationName,
-        orgRole: values.orgRole,
+        name,
+        email,
+        password,
+        organizationName,
+        orgRole,
       };
       const response: any = await api.signupUser(userDataToSend);
 
       if (response.kind === "ok") {
-        toast.success("User signup complete!", {
-          description: "Redirecting you to sign in page...",
-        });
+        setSuccess("Account created! Redirecting to Sign In...");
         setTimeout(() => {
-          router.push(
-            `/signin?callbackUrl=${
-              searchParams.get("callbackUrl") || "/dashboard"
-            }&firstSignIn=true`
-          );
-          router.refresh();
+          setTimeout(() => {
+            router.push("/signin");
+          }, 1500);
         }, 1000);
       } else {
-        toast.error(response?.message || "Sign in failed. Please try again.");
+        setError(
+          response?.data?.message ||
+            "Unable to perform action. Please try again later."
+        );
       }
     } catch (error) {
       console.error("An error occurred during sign in:", error);
-      // toast.error("Unable to verify login details. Please try again later.");
     }
   };
 
@@ -191,6 +168,10 @@ const UserSignUpForm = ({ callbackUrl }: Props) => {
             </FormItem>
           )}
         />
+        <div className="col-span-2">
+          <FormError message={error} />
+          <FormSuccess message={success} />
+        </div>
         <div className="col-span-2">
           <Button
             size="sm"

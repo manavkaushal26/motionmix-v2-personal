@@ -1,12 +1,16 @@
+import { auth } from "@/auth";
 import DashboardActions from "@/components/dashboard/DashboardActions";
 import FadeUp from "@/components/global/FadeUp";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/authOptions";
 
 type Props = {};
 
 const Dashboard = async (props: Props) => {
   const session = await auth();
+
+  if (!session) {
+    return;
+  }
 
   return (
     <FadeUp>

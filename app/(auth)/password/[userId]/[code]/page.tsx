@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/components/forms/reset-password";
+import ResetPasswordForm from "@/components/forms/ResetPassword";
 import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import {
   CardContent,

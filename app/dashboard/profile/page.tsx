@@ -1,7 +1,7 @@
 "use client";
 
-import ChangePasswordForm from "@/components/forms/change-password";
-import UpdateMyDetailsForm from "@/components/forms/update-my-details";
+import ChangePasswordForm from "@/components/forms/ChangePassword";
+import UpdateMyDetailsForm from "@/components/forms/UpdateMyDetails";
 import FadeUp from "@/components/global/FadeUp";
 import Spinner from "@/components/global/Spinner";
 import { Separator } from "@/components/ui/separator";

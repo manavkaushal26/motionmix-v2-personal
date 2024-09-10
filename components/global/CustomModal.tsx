@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ReactNode } from "react";
-import { useModal } from "../providers/ModalProvider";
+import { useModal } from "../../lib/providers/ModalProvider";
 
 type Props = {
   title: string;

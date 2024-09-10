@@ -1,5 +1,5 @@
+import { auth } from "@/auth";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import { auth } from "@/lib/authOptions";
 import { fetchAllApps } from "@/lib/queries";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";

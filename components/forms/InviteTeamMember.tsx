@@ -7,7 +7,7 @@ import { AlertTriangle, Building2, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useModal } from "../providers/ModalProvider";
+import { useModal } from "../../lib/providers/ModalProvider";
 import { Button } from "../ui/button";
 import {
   Form,

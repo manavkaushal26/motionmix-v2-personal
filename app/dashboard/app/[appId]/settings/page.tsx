@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import DeleteAppButton from "@/components/dashboard/DeleteAppButton";
 import AppKeySecret from "@/components/global/AppKeySecret";
 import CardSpotlight from "@/components/global/CardSpotlight";
@@ -5,7 +6,6 @@ import FadeUp from "@/components/global/FadeUp";
 import { CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
 import { AppMeta } from "@/lib/types";
 import dayjs from "dayjs";

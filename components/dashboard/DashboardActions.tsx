@@ -8,9 +8,9 @@ import { Download, MoveRight, SquareUser, Wand2 } from "lucide-react";
 import { Session } from "next-auth";
 import Link from "next/link";
 import { toast } from "sonner";
-import CreateAppForm from "../forms/create-app-form";
+import { useModal } from "../../lib/providers/ModalProvider";
+import CreateAppForm from "../forms/CreateAppForm";
 import CustomModal from "../global/CustomModal";
-import { useModal } from "../providers/ModalProvider";
 
 type Props = { session: Session };
 

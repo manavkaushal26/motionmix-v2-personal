@@ -1,13 +1,12 @@
 "use client";
 
-import DeactivateUserForm from "@/components/forms/deactivate-user";
-import InviteTeamMemberForm from "@/components/forms/invite-team-member-form";
-import UpdateTeamMemberForm from "@/components/forms/update-team-member";
+import DeactivateUserForm from "@/components/forms/DeactivateUser";
+import InviteTeamMemberForm from "@/components/forms/InviteTeamMember";
+import UpdateTeamMemberForm from "@/components/forms/UpdateTeamMember";
 import CustomModal from "@/components/global/CustomModal";
 import { DataTable } from "@/components/global/DataTable";
 import FadeUp from "@/components/global/FadeUp";
 import UserAvatar from "@/components/global/UserAvatar";
-import { useModal } from "@/components/providers/ModalProvider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { useModal } from "@/lib/providers/ModalProvider";
 import { TeamMember } from "@/lib/types";
 import { cn, copyTextToClipboard, isAdmin } from "@/lib/utils";
 import { api } from "@/services/api";

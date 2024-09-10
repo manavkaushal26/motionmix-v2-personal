@@ -1,4 +1,4 @@
-import UserSignInForm from "@/components/forms/user-signin";
+import UserSignInForm from "@/components/forms/UserSignIn";
 import CardSpotlightBorder from "@/components/global/CardSpotlightBorder";
 import {
   CardContent,
@@ -13,8 +13,6 @@ type Props = {
 };
 
 const SignInPage = ({ searchParams }: Props) => {
-  const { firstSignIn = "" } = searchParams;
-
   return (
     <CardSpotlightBorder className="bg-background w-full shadow-lg !rounded-xl">
       <CardHeader className="text-center">
@@ -26,9 +24,7 @@ const SignInPage = ({ searchParams }: Props) => {
             MOTION<span className="text-bold">MIX</span>
           </p>
         </div>
-        <CardTitle>
-          {firstSignIn ? "Welcome to MotionMix!" : "Welcome back!"}
-        </CardTitle>
+        <CardTitle>Welcome to MotionMix!</CardTitle>
         <CardDescription>Sign in to your account to continue</CardDescription>
       </CardHeader>
       <CardContent className="mt-2">

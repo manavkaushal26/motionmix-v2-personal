@@ -1,5 +1,5 @@
 // import { User, Version } from "@utils/types";
-import { AppMeta, SessionMeta, TeamMember } from "@/lib/types";
+import { AppMeta, SessionCardMeta, TeamMember } from "@/lib/types";
 import { GeneralApiProblem } from "./apiProblem";
 
 export interface ApiConfig {
@@ -8,6 +8,32 @@ export interface ApiConfig {
 }
 
 export type SuccessBase = { kind: "ok" };
+
+interface AppBase {
+  _id: string;
+  name: string;
+}
+interface SessionBase {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  sdkVersion: string;
+  totalRecorded?: number;
+  ip?: string;
+}
+interface AppScene {
+  _id: string;
+  name: string;
+  ply: string;
+}
+export interface SessionMeta extends SessionBase {
+  app: AppBase;
+  appScene: AppScene;
+  sessionId: string;
+  stitchSession: string;
+  sessions: string[];
+  files?: any;
+}
 
 // APP
 export type getAllAppsResponse =
@@ -26,10 +52,10 @@ export type DeleteAppResponse =
 // SESSIONS
 export type AllSessionsResponse =
   | GeneralApiProblem
-  | { kind: "ok"; data: SessionMeta[] };
+  | { kind: "ok"; data: SessionCardMeta[] };
 export type SingleSessionRes =
   | GeneralApiProblem
-  | { kind: "ok"; data: SessionMeta };
+  | { kind: "ok"; data: SessionCardMeta };
 export type ForgetPasswordRes = SuccessBase | GeneralApiProblem;
 
 // ORGANIZATION

@@ -1,10 +1,10 @@
+import { auth } from "@/auth";
 import PageHeader from "@/components/dashboard/PageHeader";
 import AppSessionCard from "@/components/dashboard/sessions/AppSessionCard";
 import SessionsFilters from "@/components/dashboard/sessions/SessionsFilters";
 import AppKeySecret from "@/components/global/AppKeySecret";
 import FadeUp from "@/components/global/FadeUp";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/authOptions";
 import { config } from "@/lib/globalConfig";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";

@@ -1,11 +1,13 @@
-import GlobalProvider from "@/components/providers/GlobalProvider";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { defaultSEO } from "@/lib/globalConfig";
+import GlobalProvider from "@/lib/providers/GlobalProvider";
+import ModalProvider from "@/lib/providers/ModalProvider";
+import SessionProvider from "@/lib/providers/session-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ModalProvider from "@/components/providers/ModalProvider";
+import { ThemeProvider } from "@/lib/providers/ThemeProvider";
 
 const font = Inter({
   subsets: ["latin"],
@@ -17,27 +19,31 @@ export const metadata: Metadata = {
   keywords: defaultSEO.keywords,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={font.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ModalProvider>
-            <GlobalProvider>
-              <main>{children}</main>
-              <Toaster />
-            </GlobalProvider>
-          </ModalProvider>
-        </ThemeProvider>
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ModalProvider>
+              <GlobalProvider>
+                <main>{children}</main>
+                <Toaster />
+              </GlobalProvider>
+            </ModalProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
